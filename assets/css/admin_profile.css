@@ -1,0 +1,155 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #f4f4f9;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Sidebar Styling */
+.admin-nav {
+    background-color: #212529;
+    min-height: 100vh;
+    color: white;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+}
+
+.admin-nav h4 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    color: #f8f9fa;
+}
+
+.admin-nav a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.admin-nav a:hover,
+.admin-nav a.active {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Header Styling */
+.profile-header {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header img {
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header h2 {
+    font-size: 1.8rem;
+    color: #4CAF50;
+    margin-bottom: 0.5rem;
+}
+
+.profile-header p {
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+/* Main Content Styling */
+.admin-content {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.admin-content h3 {
+    font-size: 1.5rem;
+    color: #4CAF50;
+    margin-bottom: 1rem;
+}
+
+.card {
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.card-body label {
+    font-weight: bold;
+    color: #333;
+}
+
+.card-body input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.card-body input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.card-body button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.card-body button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-nav {
+        min-height: auto;
+        padding: 1rem 0.5rem;
+    }
+
+    .profile-header {
+        text-align: center;
+    }
+
+    .profile-header img {
+        margin-bottom: 1rem;
+    }
+
+    .admin-content {
+        padding: 1rem;
+    }
+}
