@@ -1,0 +1,96 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #f4f4f9;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+header.admin-header {
+    background-color: #4CAF50;
+    color: white;
+    padding:  1rem 2rem;
+    text-align: center;
+    font-size:  1.5rem;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgb(0, 0, 0.1);
+}
+
+header.admin-header nav {
+    margin-top: 1rem;
+}
+
+header.admin-header nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+
+section.admin-section h2 {
+    text-decoration: double;
+    text-align: center;
+    padding: auto;
+
+}
+
+
+ section.admin-section form#editProductForm {
+    /* display: inline-table; */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgb(0, 0, 0, 0.1); 
+    max-width: 600px;
+    left: auto;
+    right: inherit;
+    top: auto;
+    bottom: auto;
+    margin: 2rem auto; 
+    background-color: white;
+     
+} 
+form#editProductForm label  {
+     display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+section form#editProductForm input,
+section form#editProductForm textarea,
+section form#editProductForm select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: boder-color 0.3s ease;
+}
+
+form#editProductForm input:focus,
+form#editProductForm textarea:focus,
+form#editProductForm select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+form#editProductForm button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}

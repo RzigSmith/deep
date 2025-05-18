@@ -23,19 +23,19 @@ require_once 'config.php'; // Fichier de configuration (connexion DB)
 if (isset($_POST['add_product'])) {
     $name = $_POST['name'];
     $description = $_POST['description'];
-    $price =    $_POST['price'];
+    $price = $_POST['price'];
 
 
     //  Gestion de l'upload d'image
 
     $uploadDir = realpath(__DIR__ . '/../uploads/') . '/';
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
+        mkdir($uploadDir,  true);
     }
     $image = $uploadDir . basename($_FILES['image']['name']);
     move_uploaded_file($_FILES['image']['tmp_name'], $image);
     // Isertion en base de données
-    $stmt = $db->prepare("INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)");
+    $stmt = $db->prepare("INSERT INTO products name, description, price, image) VALUES (?, ?, ?, ?)");
     $stmt->execute([$name, $description, $price, $image]);
 
     header("Location: admin/admin.php?success=1"); // Rédirection pour le rechargement du formulaire
@@ -59,7 +59,7 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smith Collection - Administration</title>
-    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/addProduct.css">
 </head>
 
 <body>
@@ -92,37 +92,38 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
                 </select>
                 <button type="submit" name="add_product">Ajouter</button>
             </form>
-        </section>
-        <section class="admin-section">
             <h2>Liste des produits</h2>
+        </section>
 
-            <table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Description</th>
-            <th>Prix</th>
-            <th>Image</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($products as $product): ?>
-            <tr>
-                <td><?= htmlspecialchars($product['id']) ?></td>
-                <td><?= htmlspecialchars($product['name']) ?></td>
-                <td><?= htmlspecialchars($product['description']) ?></td>
-                <td><?= htmlspecialchars($product['price']) ?>$</td>
-                <td><img src="<?= htmlspecialchars($product['image']) ?>" width="100"></td>
-                <td>
-                    <a href="edit_product.php?id=<?= $product['id'] ?>">Modifier</a> |
-                    <a href="delete_product.php?id=<?= $product['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($products as $product): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($product['id']) ?></td>
+                        <td><?= htmlspecialchars($product['name']) ?></td>
+                        <td><?= htmlspecialchars($product['description']) ?></td>
+                        <td><?= htmlspecialchars($product['price']) ?>$</td>
+                        <td><img src="<?= htmlspecialchars($product['image']) ?>" width="100"></td>
+                        <td>
+                          <button type="submit" id="modify"> <a href="edit_product.php?id=<?= $product['id'] ?>">Modifier</a> </button> | 
+                            <button type="submit" id="remove"><a href="delete_product.php?id=<?= $product['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
 
     </main>

@@ -13,8 +13,6 @@ body {
     font-size: 16px;
     line-height: 1.6;
 }
-
-/* Header Styling */
 header.admin-header {
     background-color: #4CAF50;
     color: white;
@@ -41,6 +39,11 @@ header.admin-header nav a:hover {
     color: #d4f4d4;
 }
 
+main section.admin-section h2 {
+    text-align: center;
+    text-decoration: double;
+    padding: auto;
+}
 /* Form Styling */
 form#addProductForm {
     background: white;
@@ -134,4 +137,28 @@ table img {
     margin: 1rem auto;
     max-width: 600px;
     text-align: center;
+}
+
+table td button#modify a {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    text-overflow: inherit;
+    text-underline-offset: none ;
+}
+table td button#remove a {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  
 }

@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Mettre à jour les informations du produit dans la base de données
-    $stmt = $db->prepare("UPDATE products SET name = ?, description = ?, price = ?, image = ?,  WHERE id = ?");
+    $stmt = $db->prepare("UPDATE products SET name = ?, description = ?, price = ?, image = ?  WHERE id = ?");
     $stmt->execute([$name, $description, $price, $image,  $product_id]);
 
     header('Location: admin.php?success=1');
@@ -62,7 +62,7 @@ $stmt = $db->query("SELECT * FROM products");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier le produit</title>
-    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/edit.css">
 </head>
 <body>
     <header class="admin-header">
@@ -83,9 +83,6 @@ $stmt = $db->query("SELECT * FROM products");
 
                 <label for="productDescription">Description :</label>
                 <textarea id="productDescription" name="description" rows="3" required><?= htmlspecialchars($product['description']) ?></textarea><br>
-
-                <label for="productImage">Image :</label>
-                <input type="file" id="productImage" name="image" accept="image/*"><br>
                 <p>Image actuelle :</p>
                 <img src="<?= htmlspecialchars($product['image']) ?>" width="100"><br>
 

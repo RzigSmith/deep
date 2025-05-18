@@ -40,7 +40,8 @@ $products = $db->query("
 <body>
     <!-- Header -->
     <header>
-        <div class="container">
+        <div class="container" id="navbar">
+            <div class="navar-logo">
             <nav class="navbar">
                 <div class="logo">Smith<span>Collection</span></div>
                 <ul class="nav-links">
