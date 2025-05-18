@@ -40,7 +40,7 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
         <li><a href="profile.php">Profile</a></li>
         <li><a href="classes/product.php">Boutique</a></li>
         <li><a href="#">Nouveautés</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="classes/contact.php">Contact</a></li>
       </ul>
     </nav>
   </header>
