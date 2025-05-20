@@ -1,35 +1,36 @@
 <?php
-require_once '../includes/config.php';
+session_start();
 
-
-// Vérifier si la requête est POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true);
-
-    $product_id = $data['product_id'];
-    $name = $data['name'];
-    $price = $data['price'];
-    $image = $data['image'];
-    $quantity = $data['quantity'];
-
-    // Vérifier si le produit existe déjà dans le panier pour cet utilisateur
-    $stmt = $db->prepare("SELECT id FROM cart WHERE user_id = ? AND product_id = ?");
-    $stmt->execute([$_SESSION['user']['id'], $product_id]);
-    $existingCartItem = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($existingCartItem) {
-        // Mettre à jour la quantité si le produit existe déjà
-        $stmt = $db->prepare("UPDATE cart SET quantity = quantity + ? WHERE user_id = ? AND product_id = ?");
-        $stmt->execute([$quantity, $_SESSION['user']['id'], $product_id]);
-    } else {
-        // Insérer un nouveau produit dans le panier
-        $stmt = $db->prepare("INSERT INTO cart (user_id, product_id, quantity, price, image) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$_SESSION['user']['id'], $product_id, $quantity, $price, $image]);
-    }
-
-    echo json_encode(['success' => true]);
-    exit;
+try {
+    $db = new PDO("mysql:host=localhost;dbname=ecommerce_db;charset=utf8", 'root', '');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (Exception $e) {
+    die("Erreur de connexion à la base de données: " . $e->getMessage());
 }
 
-echo json_encode(['success' => false, 'message' => 'Requête invalide']);
-exit;
+if (isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    if ($id <= 0) die("ID produit invalide");
+
+    // Vérifier que le produit existe
+    $stmt = $db->prepare("SELECT * FROM products WHERE id = ?");
+    $stmt->execute([$id]);
+    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$product) die("Ce produit n'existe pas");
+
+    if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+
+    if (isset($_SESSION['cart'][$id])) {
+        $_SESSION['cart'][$id]++;
+    } else {
+        $_SESSION['cart'][$id] = 1;
+    }
+
+    header("Location: ../classes/product.php");
+    exit;
+} else {
+    die("Aucun produit sélectionné");
+}

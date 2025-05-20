@@ -21,14 +21,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Contact - SmithCollection</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/contact.css">
-   
+    <link rel="stylesheet" href="../assets/css/contact.css">
+
 </head>
+
 <body>
+    <header class="header">
+        <nav class="navbar">
+            <div id="logo">
+                <h2 class="logo">Smith<span>Collection</span></h2>
+            </div>
+            <ul class= "nav-links">
+                <li class="link"><a href="../index.php">Acceuil</a></li>
+                <li class="link"><a href="product.php">Boutique</a></li>
+                <li class="link"><a href="#"></a></li>
+                <li class="link"><a href="#"></a></li>
+            </ul>
+        </nav>
+    </header>
     <div class="contact-container">
         <h1>Contactez-nous</h1>
         <?php if ($success): ?>
@@ -47,4 +62,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 </body>
+
 </html>

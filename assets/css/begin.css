@@ -8,47 +8,77 @@ body {
 }
 
 /* header styles */
+
+/* Header */
 header {
-    padding: 30px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
     z-index: 100;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
+    padding: 30px 10px;
+    display: block;
     unicode-bidi: isolate;
 }
 
-div h2 {
-    color: #8b000095;
-
+.ul {
+    padding: auto;
 }
 
-nav ul {
-    list-style: none;
+.navbar {
     display: flex;
-    gap: 30px;
-    margin: 0;
-    padding: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
 }
 
-nav li {
-    position: relative;
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff6b6b;
 }
 
-nav a {
-    color: #17202b;
+.nav-links {
+    display: flex;
+    list-style: none;
+
+}
+
+.nav-links li {
+    margin-left: 30px;
+
+
+}
+
+.nav-links a {
     text-decoration: none;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    transition: 0.3s;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+    margin-right: 10px;
+    margin-left: 30px;
 }
 
-nav a.active {
-    color: #8b0000;
-    font-weight: 600;
+.nav-links a:hover {
+    color: #ff6b6b;
 }
 
+.notification-icon {
+  position: relative;
+  display: inline-block;
+  font-size: 24px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 5px;
+  font-size: 12px;
+}
 /* hero section  */
 .hero {
     padding: 0px 40px;
@@ -59,9 +89,9 @@ nav a.active {
 
 .hero-cache {
     padding: 0px 40px;
-    display: flex;
+    display: none;
     align-items: center;
-    
+
 }
 
 .text-container {
@@ -288,17 +318,20 @@ footer {
         display: inline-flex;
         margin: 0 auto;
         max-width: 100%;
+        text-align: center;
     }
 
     .image-container {
         max-width: 100%;
         padding: 0 10px;
+        align-items: center;
     }
 
     .shoe-image {
         width: 100%;
         max-width: 350px;
         margin: 30px auto;
+
     }
 
     .Produit-icons {
@@ -309,6 +342,13 @@ footer {
         margin-top: 20px;
         gap: 15px;
     }
+}
+
+.hero-cache {
+    padding: 0px 40px;
+    display: flex;
+    align-items: center;
+
 }
 
 @media (max-width: 768px) {
@@ -346,13 +386,18 @@ footer {
         flex-direction: column;
         align-items: center;
         max-width: 100%;
-        margin: 0 auto;
+        margin: auto;
     }
 
     .shoe-image {
         width: 90vw;
-        max-width: 300px;
-        margin: 20px auto;
+        max-width: 100%;
+        height: 50%;
+        font-weight: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center;
+        align-items: center;
     }
 
     .Produit-icons {
@@ -399,6 +444,7 @@ footer {
     .shoe-image {
         width: 95vw;
         max-width: 220px;
+        align-items: center;
     }
 
     .icon {

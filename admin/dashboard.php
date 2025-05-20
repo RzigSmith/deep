@@ -19,22 +19,34 @@ $users = $db->query("
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de bord admin</title>
-    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/dash.css">
 </head>
-<body>
-    <header class="admin-header">
-        <h1>Bienvenue, <?= htmlspecialchars($_SESSION['user']['username']) ?> !</h1>
-        <nav>
-            <a href="dashboard.php">Tableau de bord</a>
-            <a href="admin_profile.php">Profil</a>
-            <a href="logout.php">Déconnexion</a>
-        </nav>
-    </header>
 
+<body>
+    <header class="admin-header" id="navbar">
+        <nav class="navbar">
+            <div class="logo">
+                <h2>Smith<span>Collection</span></h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.php">Tableau de bord</a></li>
+                <li><a href="admin_profile.php">Profil</a></li>
+                <li><a href="logout.php">Déconnexion</a></li>
+            </ul>
+
+            <div class="notification-icon">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">0</span>
+            </div>
+        </nav>
+
+    </header>
+    <h1>Bienvenue, <?= htmlspecialchars($_SESSION['user']['username']) ?> !</h1>
     <main class="container">
         <section class="user-list">
             <h2>Liste des utilisateurs</h2>
@@ -67,9 +79,7 @@ $users = $db->query("
             </table>
         </section>
     </main>
-
-    <footer>
-        <p>&copy; 2025 Smith Collection. Tous droits réservés.</p>
-    </footer>
 </body>
+
+
 </html>

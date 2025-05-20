@@ -3,15 +3,15 @@
 // Connexion à la base de données
 try {
     $db = new PDO("mysql:host=localhost; dbname=ecommerce_db;charset=utf8", 'root', '');
-   
 } catch (Exception $e) {
     die("Erreur de connexion à la base de données: " . $e->getMessage());
 }
 
 // Fonction pour nettoyer les entrées
-function clean_input($data) {
+function clean_input($data)
+{
     return htmlspecialchars(strip_tags(trim($data)));
-}
+} 
 
 // Traitement du formulaire
 $errors = [];
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->fetch()) {
                 $errors[] = "Ce nom d'utilisateur est déjà pris.";
             }
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             $errors[] = "Erreur lors de la vérification des données: " . $e->getMessage();
         }
     }
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
             $stmt = $db->prepare("INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, NOW())");
             $stmt->execute([$username, $email, $hashed_password]);
-            
+
             $success = true;
             $_SESSION['user'] = [
                 'id' => $db->lastInsertId(),
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'email' => $email,
                 'role' => 'client'
             ];
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             $errors[] = "Erreur lors de l'inscription: " . $e->getMessage();
         }
     }
@@ -90,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -102,14 +103,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin: 0 auto;
             padding: 20px;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
         }
+
         input[type="text"],
         input[type="email"],
         input[type="password"] {
@@ -119,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 4px;
             box-sizing: border-box;
         }
+
         button {
             background-color: #4CAF50;
             color: white;
@@ -128,13 +133,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             cursor: pointer;
             font-size: 16px;
         }
+
         button:hover {
             background-color: #45a049;
         }
+
         .error {
             color: red;
             margin-bottom: 15px;
         }
+
         .success {
             color: green;
             margin-bottom: 15px;
@@ -142,9 +150,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </style>
 </head>
+
 <body>
     <h1>Inscription</h1>
-    
+
     <?php if ($success): ?>
         <div class="success">
             Inscription réussie ! Bienvenue, <?= htmlspecialchars($username) ?>.
@@ -166,28 +175,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="username">Nom d'utilisateur:</label>
                 <input type="text" id="username" name="username" value="<?= isset($username) ? htmlspecialchars($username) : '' ?>" required minlength="3">
             </div>
-            
+
             <div class="form-group">
                 <label for="email">Adresse email:</label>
                 <input type="email" id="email" name="email" value="<?= isset($email) ? htmlspecialchars($email) : '' ?>" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="password">Mot de passe:</label>
                 <input type="password" id="password" name="password" required minlength="8">
             </div>
-            
+
             <div class="form-group">
                 <label for="confirm_password">Confirmer le mot de passe:</label>
                 <input type="password" id="confirm_password" name="confirm_password" required minlength="8">
             </div>
             <input type="hidden" name="role" value="client">
 
-            
+
             <button type="submit">S'inscrire</button>
         </form>
-        
+
         <p>Déjà un compte ? <a href="login.php">Connectez-vous</a></p>
     <?php endif; ?>
 </body>
+
 </html>

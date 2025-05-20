@@ -1,150 +1,107 @@
 <?php
-header('Content-Type: application/json');
-require_once '../includes/config.php';
-require_once '../classes/CartManager.php';
 
-
+// 
+session_start();
+// 
 try {
-    // Vérifier le CSRF token
-    // if (!isset($_SERVER['HTTP_X_CSRF_TOKEN']) || $_SERVER['HTTP_X_CSRF_TOKEN'] !== ($_SESSION['csrf_token'] ?? '')) {
-    //     throw new Exception('Token CSRF invalide', 403);
-    // }
+    $db = new PDO("mysql:host=localhost;dbname=ecommerce_db;charset=utf8", 'root', '');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (Exception $e) {
+    die("Erreur de connexion à la base de données: " . $e->getMessage());
+}
 
-    $cartManager = new CartManager($db); // Passer la connexion PDO au CartManager
-    $userId = $_SESSION['user_id'] ?? null;
-// Vérifier si l'utilisateur est connecté, sinon rediriger vers la page de connexion
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: ../login.php");
+$ids = array_keys($_SESSION['cart'] ?? []);
+$products = [];
+$total = 0;
+
+if (!empty($ids)) {
+    $ids_list = implode(',', array_map('intval', $ids));
+    $products = $db->query("SELECT * FROM products WHERE id IN ($ids_list)")->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Gestion des actions +, -, supprimer
+if (isset($_GET['action'], $_GET['id'])) {
+    $id = intval($_GET['id']);
+    if ($id > 0 && isset($_SESSION['cart'][$id])) {
+        switch ($_GET['action']) {
+            case 'increment':
+                $_SESSION['cart'][$id]++;
+                break;
+            case 'decrement':
+                $_SESSION['cart'][$id]--;
+                if ($_SESSION['cart'][$id] <= 0) {
+                    unset($_SESSION['cart'][$id]);
+                }
+                break;
+            case 'remove':
+                unset($_SESSION['cart'][$id]);
+                break;
+        }
+    }
+    // Rafraîchir la page pour éviter la répétition de l'action au rechargement
+    header('Location: cart.php');
     exit;
 }
-
-$stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
-$stmt->execute([$_SESSION['user_id']]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
-// Traitement du formulaire de mise à jour
- 
-if (isset($_SESSION['success_message'])) {
-    $success = $_SESSION['success_message'];
-    unset($_SESSION['success_message']);
-}
-$errors = [];
-$success = [];
-
-
-
-    // Gérer les différentes méthodes HTTP
-    switch ($_SERVER['REQUEST_METHOD']) {
-        case 'GET': // Récupérer les articles du panier
-            $cartItems = $userId ? $cartManager->getCart($userId) : [];
-            echo json_encode(['success' => true, 'data' => $cartItems]);
-            break;
-
-        case 'POST': // Ajouter un article au panier
-            $data = json_decode(file_get_contents('php://input'), true);
-
-            if (empty($data['product_id']) || empty($data['quantity'])) {
-                throw new Exception('Données invalides', 400);
-            }
-
-            $result = $cartManager->addToCart($userId, $data['product_id'], (int)$data['quantity']);
-            echo json_encode(['success' => $result]);
-            break;
-
-        case 'PUT': // Mettre à jour la quantité d'un article dans le panier
-            $data = json_decode(file_get_contents('php://input'), true);
-
-            if (empty($data['product_id']) || empty($data['quantity'])) {
-                throw new Exception('Données invalides', 400);
-            }
-
-            $result = $cartManager->updateCartItem($userId, $data['product_id'], (int)$data['quantity']);
-            echo json_encode(['success' => $result]);
-            break;
-
-        case 'DELETE': // Supprimer un article du panier
-            $data = json_decode(file_get_contents('php://input'), true);
-
-            if (empty($data['product_id'])) {
-                throw new Exception('Données invalides', 400);
-            }
-
-            $result = $cartManager->removeFromCart($userId, $data['product_id']);
-            echo json_encode(['success' => $result]);
-            break;
-
-        default:
-            throw new Exception('Méthode HTTP non autorisée', 405);
-    }
-} catch (Exception $e) {
-    http_response_code($e->getCode() ?: 500);
-    echo json_encode([
-        'success' => false,
-        'message' => $e->getMessage()
-    ]);
-}
-
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Panier</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/cart.css">
+    <link rel="stylesheet" href="../assets/css/panier.css">
+    <title>Panier</title>
 </head>
-<body>
-    <div class="cart-container">
-        <h1 class="section-title">Mon Panier</h1>
 
-        <?php if (empty($cartItems)): ?>
-            <p class="empty-cart">Votre panier est vide.</p>
+<body class="cart">
+    
+    <header class="cart-header">
+        <nav>
+            <ul>
+                <li><a href="../index.php">Accueil</a></li>
+                <li><a href="../classes/product.php">Boutique</a></li>
+                <li><a href="cart.php" class="active">Panier</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <?php if (empty($products)): ?>
+            <p>Votre panier est vide</p>
         <?php else: ?>
-            <table class="cart-table">
-                <thead>
-                    <tr>
-                        <th>Produit</th>
-                        <th>Prix</th>
-                        <th>Quantité</th>
-                        <th>Sous-total</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($cartItems as $item): ?>
-                        <tr>
-                            <td>
-                                <img src="<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="product-image">
-                                <?= htmlspecialchars($item['name']) ?>
-                            </td>
-                            <td><?= number_format($item['price'], 2) ?> €</td>
-                            <td>
-                                <form method="POST" action="cart.php" class="update-form">
-                                    <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
-                                    <input type="number" name="quantity" value="<?= $item['quantity'] ?>" min="1" class="quantity-input">
-                                    <button type="submit" name="update_cart" class="btn-update">Mettre à jour</button>
-                                </form>
-                            </td>
-                            <td><?= number_format($item['price'] * $item['quantity'], 2) ?> €</td>
-                            <td>
-                                <form method="POST" action="cart.php" class="delete-form">
-                                    <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
-                                    <button type="submit" name="delete_item" class="btn-delete">Supprimer</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
 
-            <div class="cart-total">
-                <h3>Total : <?= number_format($total, 2) ?> €</h3>
-                <a href="checkout.php" class="btn-checkout">Passer à la caisse</a>
+            <?php foreach ($products as $product):
+                $quantity = $_SESSION['cart'][$product['id']];
+                $subtotal = $product['price'] * $quantity;
+                $total += $subtotal;
+            ?>
+
+                <div class="cart-img">
+                    <img src="../admin/<?= htmlspecialchars($product['image']) ?>" alt="" width="60">
+                </div>
+                <div class="cart-item">
+                    <h3 class="cart-title"><?= htmlspecialchars($product['name']) ?></h3>
+                    <p><?= number_format($product['price'], 2) ?> $</p>
+                    <div class="cart-qty">
+                        <a href="cart.php?action=decrement&id=<?= $product['id'] ?>" class="qty-btn">−</a>
+                        <span class="qty-value"><?= $quantity ?></span>
+                        <a href="cart.php?action=increment&id=<?= $product['id'] ?>" class="qty-btn">+</a>
+                    </div>
+                    <a href="cart.php?action=remove&id=<?= $product['id'] ?>" class="btn-delete">Supprimer</a>
+                </div>
+            <?php endforeach; ?>
+
+            <div class="total">
+                <strong>Quantité totale :</strong> <?= array_sum($_SESSION['cart']) ?><br>
+                <strong>Prix total :</strong> <?= number_format($total, 2) ?> €
+            </div>
+            <div class="cart-actions" style="margin-top:2rem; text-align:right;">
+                <a href="order.php" class="btn-order" >Passer la commande</a>
             </div>
         <?php endif; ?>
-    </div>
+    </section>
 </body>
+
 </html>

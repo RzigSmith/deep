@@ -59,7 +59,7 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smith Collection - Administration</title>
-    <link rel="stylesheet" href="../assets/css/addProduct.css">
+    <link rel="stylesheet" href="../assets/css/adpages.css">
 </head>
 
 <body>

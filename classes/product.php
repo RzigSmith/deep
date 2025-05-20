@@ -8,13 +8,13 @@ if (isset($_POST['add-to-cart'])) {
 }
 
 
-  //Récuperation des produits pour affichage
+//Récuperation des produits pour affichage
 $products = $db->query("
     SELECT p.*, c.name AS category_name
     FROM products p
-    LEFT JOIN products c ON p.description")-> fetchAll(PDO::FETCH_ASSOC);
+    LEFT JOIN products c ON p.description")->fetchAll(PDO::FETCH_ASSOC);
 
-    // Récupérer toutes les catégories
+// Récupérer toutes les catégories
 $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -38,9 +38,11 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
                 <ul class="nav-links">
                     <li><a href="../index.php">Accueil</a></li>
                     <li><a href="product.php">Boutique</a></li>
+                    <div class="btn-group">
+                        <li> <a href="../api/cart.php">Panier</a></li>
+                    </div>
+                    <li><a href="contact.php">Contact</a></li>
 
-                    <li><a href="#">Contact</a></li>
-                    
                 </ul>
                 <div class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
@@ -53,27 +55,38 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
     <section class="container">
         <h2 class="section-title">Nos produits </h2>
         <div class="products" id="product_list">
-          <?php foreach ($products as $product): ?>
-            <div class="product-card">
-                
-                <div class="product-image">
-                    <img src="../admin/<?=htmlspecialchars($product['image'])?>" alt="<?= htmlspecialchars($product['name']) ?>" alt="Produit 2">
+            <?php foreach ($products as $product): ?>
+
+                <div class="product-card">
+
+                    <div class="product-image">
+                        <img src="../admin/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" alt="Produit 2">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>
+                        <div class="product-price"><?= htmlspecialchars($product['price']) ?>$</div>
+                        <p class="description"><?= htmlspecialchars($product['description']) ?></p>
+                        <div class="btn-group">
+                            <a href="../api/cart_add.php?id=<?= $product['id'] ?>">
+                                <button type="button"
+                                    class="add-to-cart add-to-cart-js"
+                                    data-id="<?= htmlspecialchars($product['id']) ?>"
+                                    data-name="<?= htmlspecialchars($product['name']) ?>"
+                                    data-price="<?= htmlspecialchars($product['price']) ?>"
+                                    data-image="<?= htmlspecialchars($product['image']) ?>">
+                                    Ajouter au panier
+                                </button></a>
+                        </div>
+                    </div>
                 </div>
-                <div class="product-info">
-                    <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>
-                    <div class="product-price"><?=htmlspecialchars($product['price']) ?>$</div>
-                    <p class="description"><?=htmlspecialchars($product['description'])?></p>
-                    <button class="add-to-cart" data-id="<?=htmlspecialchars($product['id']) ?>" data-name="<?=htmlspecialchars($product['name']) ?>" data-price="<?=htmlspecialchars($product['price']) ?>" data-image="<?=htmlspecialchars($product['image']) ?>">Ajouter au panier</button>
-                </div>
-            </div>
-             <?php endforeach; ?>
+            <?php endforeach ?>
         </div>
-        
+
     </section>
 
-    <div class="cart-overlay">
+    <div class="cart-overlay" >
         <div class="cart">
-            <span class="close-cart"><i class="fas fa-times"></i></span>
+            <span class="close-cart"><i class="fas fa-times" ></i></span>
             <h2>Votre Panier</h2>
             <div class="cart-content">
                 <!-- Les articles du panier seront ajoutés ici dynamiquement -->
@@ -85,10 +98,8 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
             <button class="checkout-btn">Passer la commande</button>
         </div>
     </div>
-    
-    <script src="../assets/js/cart.js">
-        
-    </script>
+
+    <!-- <script src="../assets/js/cart.js"></script> -->
 
 </body>
 

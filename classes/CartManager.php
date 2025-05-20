@@ -1,6 +1,6 @@
 <?php
-require_once realpath(__DIR__ . '/Database.php'); // Ensure the correct path to Database.php
-
+// require_once realpath(__DIR__ . 'Database.php'); // Ensure the correct path to Database.php
+$db= new PDO("mysql:host=localhost;dbname=ecommerce_db", "root","");
 class CartManager {
     private $db;
 
@@ -26,7 +26,7 @@ class CartManager {
     }
 
     // Add a product to the cart
-    public function addToCart($userId, $productId, $quantity = 1) {
+    public function addToCartBtns($userId, $productId, $quantity = 1) {
         try {
             // Check product stock
             $product = $this->getProduct($productId);

@@ -14,8 +14,8 @@ body {
     line-height: 1.6;
 }
 header.admin-header {
-    background-color: #4CAF50;
-    color: white;
+    background-color: white;
+    color:#ff6b6b;
     padding: 1rem 2rem;
     text-align: center;
     font-size: 1.5rem;
@@ -28,7 +28,7 @@ header.admin-header nav {
 }
 
 header.admin-header nav a {
-    color: white;
+    color: #ff6b6b;
     text-decoration: none;
     margin: 0 1rem;
     font-weight: bold;
@@ -114,7 +114,7 @@ table td {
 }
 
 table th {
-    background-color: #4CAF50;
+    background-color: #118eb4;
     color: white;
     text-transform: uppercase;
 }
