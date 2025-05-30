@@ -98,7 +98,17 @@ if (isset($_GET['action'], $_GET['id'])) {
                 <strong>Prix total :</strong> <?= number_format($total, 2) ?> €
             </div>
             <div class="cart-actions" style="margin-top:2rem; text-align:right;">
-                <a href="order.php" class="btn-order" >Passer la commande</a>
+                <a href="order.php" class="btn-order" style="
+                    display:inline-block;
+                    background:#7d1a1a;
+                    color:#fff;
+                    padding:0.8rem 2rem;
+                    border-radius:6px;
+                    font-size:1.1rem;
+                    text-decoration:none;
+                    font-weight:500;
+                    transition:background 0.2s;
+                ">Passer la commande</a>
             </div>
         <?php endif; ?>
     </section>

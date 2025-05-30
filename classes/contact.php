@@ -1,6 +1,12 @@
 <?php
 
-require_once '../includes/config.php';
+// Connexion à la base de données
+try {
+    $db = new PDO('mysql:host=localhost;dbname=ecommerce_db', 'root', '');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Erreur de connexion: " . $e->getMessage());
+}
 // Traitement du formulaire (optionnel)
 $success = '';
 $errors = [];
@@ -16,8 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$errors) {
         // Ici tu pourrais envoyer un email ou enregistrer le message en base
         $success = "Votre message a bien été envoyé. Merci !";
+
+        //insertion en base de données
+        $stmt = $db->prepare("INSERT INTO contacts (name, email, message, date_message) VALUES (?, ?, ?, NOW())");
+        $stmt->execute([$name, $email, $message]);
     }
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -36,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div id="logo">
                 <h2 class="logo">Smith<span>Collection</span></h2>
             </div>
-            <ul class= "nav-links">
+            <ul class="nav-links">
                 <li class="link"><a href="../index.php">Acceuil</a></li>
                 <li class="link"><a href="product.php">Boutique</a></li>
                 <li class="link"><a href="#"></a></li>
@@ -58,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" name="name" placeholder="Votre nom" value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" required>
             <input type="email" name="email" placeholder="Votre email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
             <textarea name="message" rows="5" placeholder="Votre message" required><?= htmlspecialchars($_POST['message'] ?? '') ?></textarea>
-            <button type="submit">Envoyer</button>
+            <button type="submit" name="send">Envoyer</button>
         </form>
     </div>
 </body>

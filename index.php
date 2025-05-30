@@ -95,13 +95,6 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
         <div class="main-image"></div>
         <img src="<?= 'admin/' . htmlspecialchars($products[0]['image']) ?>" alt="<?= htmlspecialchars($products[0]['name']) ?>" class="shoe-image" width="450px">
       </div>
-      <div class="btn-group">
-        <a href="api/cart_add.php?id=<?= $product->id ?>">
-          <button class="add-to-cart" data-id="<?= htmlspecialchars($product['id']) ?>
-          " data-name="<?= htmlspecialchars($product['name']) ?>" data-price="
-          <?= htmlspecialchars($product['price']) ?>" data-image="
-          <?= htmlspecialchars($product['image']) ?>">Ajouter au panier</button>
-        </a>
       </div>
     <?php endif; ?>
     <div class="more-button">

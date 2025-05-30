@@ -84,12 +84,19 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
 
     </section>
 
-    <div class="cart-overlay" >
+    <div class="cart-overlay">
         <div class="cart">
-            <span class="close-cart"><i class="fas fa-times" ></i></span>
+            <span class="close-cart"><i class="fas fa-times"></i></span>
             <h2>Votre Panier</h2>
             <div class="cart-content">
                 <!-- Les articles du panier seront ajoutés ici dynamiquement -->
+
+                <!-- <script>
+                    cartItem.innerHTML =
+
+                        cartContent.appendChild(cartItem);
+                </script> -->
+
             </div>
             <div class="cart-total">
                 <span>Total : </span>
@@ -99,7 +106,7 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <!-- <script src="../assets/js/cart.js"></script> -->
+    <script src="../assets/js/panier.js"></script>
 
 </body>
 

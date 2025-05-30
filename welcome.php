@@ -23,18 +23,18 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <?php 
         // Afficher le message de bienvenue
         if(isset($_SESSION["welcome_message"])){
-            echo '<div class="alert alert-success">' . $_SESSION["welcome_message"] . $_SESSION['role'] .'</div>';
+            $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'utilisateur';
+            echo '<div class="alert alert-success">' . $_SESSION["welcome_message"] . ' ' . $role . '</div>';
             unset($_SESSION["welcome_message"]);
         }
-        
+
         // Redirection en fonction du rôle
-        if($_SESSION["role"] === "admin"){
+        if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'){
             echo '<p>Vous êtes connecté en tant qu\'administrateur.</p>';
             echo '<p><a href="admin/dashboard.php">Accéder au tableau de bord administrateur</a></p>';
         } else{
             echo '<p>Vous êtes connecté en tant que client.</p>';
-            echo '<p><a href="index.php">Accéder à l\'acc
-            ueil</a></p>';
+            echo '<p><a href="index.php">Accéder à l\'accueil</a></p>';
         }
         ?>
         <p>

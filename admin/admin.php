@@ -2,23 +2,13 @@
 
 require_once 'config.php'; // Fichier de configuration (connexion DB)
 
-
-// Vérifier si l'utilisateur est admin
-// if (!isset($_SESSION['user']) || $_SESSION['user']['is_admin'] !== 1) {
-//     header('Location: login_admin.php');
-//     exit;
-// }
-
-// Function to check if the user is an admin
-// function isAdmin()
-// {
-//     return isset($_SESSION['user']) && $_SESSION['user']['is_admin'] === 1;
-// }
-
-// if (!isAdmin()) {
-//     header('Location: login_admin.php');
-//     exit;
-// }
+// Vérifier si l'utilisateur est connecté et est un administrateur
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+    // Définir un message d'erreur dans la session
+    $_SESSION['error_message'] = "Accès refusé. Vous devez être administrateur pour accéder à cette page.";
+    header('Location: login_admin.php');
+    exit;
+}
 //  Traitement du formulaire d'ajout
 if (isset($_POST['add_product'])) {
     $name = $_POST['name'];
@@ -30,7 +20,7 @@ if (isset($_POST['add_product'])) {
 
     $uploadDir = realpath(__DIR__ . '/../uploads/') . '/';
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir,  true);
+        mkdir($uploadDir,  permissions: true);
     }
     $image = $uploadDir . basename($_FILES['image']['name']);
     move_uploaded_file($_FILES['image']['tmp_name'], $image);
@@ -38,7 +28,8 @@ if (isset($_POST['add_product'])) {
     $stmt = $db->prepare("INSERT INTO products name, description, price, image) VALUES (?, ?, ?, ?)");
     $stmt->execute([$name, $description, $price, $image]);
 
-    header("Location: admin/admin.php?success=1"); // Rédirection pour le rechargement du formulaire
+    header("Location: admin/admin.php?success=1"); 
+    // Rédirection pour le rechargement du formulaire
     exit;
 }
 
