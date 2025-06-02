@@ -113,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <li><a href="manage_users.php">Gestion Utilisateurs</a></li>
                         <li><a href="admin.php">Gestion Produits</a></li>
                         <li><a href="admin_settings.php">Paramètres</a></li>
+                        <li><a href="messages.php">Mes messages</a></li>
                         <li><a href="login_admin.php">Déconnexion</a></li>
                     </ul>
                 </div>
