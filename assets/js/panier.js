@@ -67,6 +67,8 @@ addToCartBtns.forEach(btn => {
 
 });
 
+
+
 // Mettre à jour le panier
 function updateCart() {
     cartContent.innerHTML = '';

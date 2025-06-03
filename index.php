@@ -79,7 +79,7 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
               <p>Des produits exclusifs à des prix imbattables</p>
             </div>
           </div>
-          <a href="#" class="button">Voir la collection</a>
+          <a href="classes/product.php" class="button">Voir la collection</a>
       </div>
     </section>
     <section class="products">
