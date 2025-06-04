@@ -46,7 +46,7 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
                 </ul>
                 <div class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
+                    <span class="cart-count"> 0</span>
                 </div>
             </nav>
         </div>
