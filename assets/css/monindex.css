@@ -2,7 +2,9 @@
 body {
     margin: 0;
     font-family: "Montserrat", sans-serif;
-    background: linear-gradient(135deg, #f2efea, #f8f8f5);
+    background-image: url("../images/cover.jpeg");
+    background-size: cover;
+    background-attachment: fixed;
     min-height: 100vh;
     color: #2e2e2e;
 }

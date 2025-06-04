@@ -28,7 +28,7 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmithCollection</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/begin.css" />
+  <link rel="stylesheet" href="assets/css/monindex.css" />
 </head>
 
 <body>

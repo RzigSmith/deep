@@ -1,24 +1,10 @@
 <?php
-require_once '../includes/config.php';
+require_once '../includes/db.php';
+require_once 'ProductManager.php';
 
-if (isset($_POST['add-to-cart'])) {
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $price =    $_POST['price'];
-}
-
-
-//Récuperation des produits pour affichage
-$products = $db->query("
-    SELECT p.*, c.name AS category_name
-    FROM products p
-    LEFT JOIN products c ON p.description")->fetchAll(PDO::FETCH_ASSOC);
-
-// Récupérer toutes les catégories
-$description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
+$productManager = new ProductManager($db);
+$products = $productManager->getAllProducts();
 ?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -106,7 +92,7 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <script src="../assets/js/panier.js"></script>
+    <script src="../assets/js/cart.js"></script>
 
 </body>
 
