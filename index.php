@@ -30,6 +30,14 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/monindex.css" />
 </head>
+<script>
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('header');
+    // Plus tu scrolles, plus l'opacité diminue (min 0.7)
+    let opacity = 1 - Math.min(window.scrollY / 300, 0.3);
+    header.style.opacity = opacity;
+  });
+</script>
 
 <body>
   <header>
@@ -95,19 +103,20 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
         <div class="main-image"></div>
         <img src="<?= 'admin/' . htmlspecialchars($products[0]['image']) ?>" alt="<?= htmlspecialchars($products[0]['name']) ?>" class="shoe-image" width="450px">
       </div>
-      </div>
-    <?php endif; ?>
-    <div class="more-button">
-      <span>More</span>
-      <div class="arrow"></div>
-    </div>
-    </section>
   </div>
-  <script src="assets/js/script.js"></script>
-  </section>
-  </div>
+<?php endif; ?>
+<div class="more-button">
+  <span>More</span>
+  <div class="arrow"></div>
+</div>
+</section>
+</div>
+<script src="assets/js/script.js"></script>
 
-  </style>
+</section>
+</div>
+
+</style>
 </body>
 <footer>
   <div class="container">

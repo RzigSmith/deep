@@ -1,7 +1,9 @@
 
    
         body {
-            background-color: #f5f5f5;
+            background-image: url('..   /images/cover.jpeg');
+            background-size: cover;
+            background-attachment: fixed;
             color: #333;
         }
         

@@ -1,12 +1,14 @@
+/* Général */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   display: flex;
   background-image: url('../assets/images/look.jpeg');
   background-size: cover;
   background-attachment: fixed;
 }
 
+/* Sidebar */
 .sidebar {
   width: 220px;
   background-image: url('../assets/images/sidebar.jpeg');
@@ -16,121 +18,127 @@ body {
   left: 0;
   top: 0;
   padding-top: 30px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.08);
 }
-
 .sidebar h2 {
   text-align: center;
   margin-bottom: 30px;
   font-size: 1.5rem;
   letter-spacing: 1px;
 }
-
 .sidebar ul {
   list-style: none;
   padding: 0;
 }
-
 .sidebar ul li {
   margin: 20px 0;
 }
-
 .sidebar ul li a {
   color: #fff;
   text-decoration: none;
   padding: 12px 30px;
   display: block;
   border-radius: 4px;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
-
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
-  background: #444;
+  background: #7d1a1a;
+  color: #fff;
 }
 
+/* Main */
 .main {
   flex: 1;
-  padding: 20px;
   margin-left: 240px;
   padding: 40px 30px;
-  min-height: 100vh;
   background-image: url('../assets/images/query.jpeg');
   background-size: cover;
   background-attachment: fixed;
+  min-height: 100vh;
 }
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .header h1 {
   font-size: 2rem;
   color: #333;
   margin-bottom: 2rem;
+  letter-spacing: 1px;
 }
-
 .card {
-  background-color: #f4f4f4;
+  background-color: #fff;
   padding: 20px;
   margin-top: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
-
 .main-user {
   display: flex;
   flex-wrap: wrap;
- 
   padding: 20px;
   border-radius: 5px;
   gap: 20px;
 }
 
+/* Liste utilisateurs */
 .user-list {
-   background-image: url('../assets/images/pareil.jpeg');
-   background-attachment: fixed;
+  background-image: url('../assets/images/pareil.jpeg');
+  background-attachment: fixed;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   padding: 30px;
   margin-bottom: 30px;
+  overflow-x: auto;
 }
-
 .user-list h2 {
   margin-bottom: 1.5rem;
   color: #2c3e50;
   font-size: 1.3rem;
   text-align: center;
+  letter-spacing: 1px;
 }
-
 .user-list table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1rem;
+  background: rgba(255,255,255,0.95);
+  border-radius: 10px;
+  overflow: hidden;
 }
-
 .user-list th,
 .user-list td {
-  padding: 12px 10px;
+  padding: 14px 12px;
   text-align: left;
+  font-size: 1rem;
 }
-
 .user-list th {
   background: #7d1a1a;
   color: #fff;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
+  border-bottom: 2px solid #fff;
 }
-
 .user-list tr:nth-child(even) {
   background: #f8f8f8;
 }
-
 .user-list tr:hover {
   background: #f1e6e6;
+  transition: background 0.2s;
+}
+.user-list td {
+  vertical-align: top;
+  color: #333;
+  word-break: break-word;
+  border-bottom: 1px solid #eee;
 }
 
+/* Boutons */
 .btn-edit,
 .btn-promote {
   display: inline-block;
@@ -139,52 +147,47 @@ body {
   font-size: 0.95rem;
   text-decoration: none;
   margin-right: 8px;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   border: none;
   cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
-
 .btn-edit {
   background: #4caf50;
   color: #fff;
 }
-
 .btn-edit:hover {
   background: #388e3c;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.15);
 }
-
 .btn-promote {
   background: #7d1a1a;
   color: #fff;
 }
-
 .btn-promote:hover {
   background: #a23c3c;
+  box-shadow: 0 2px 8px rgba(125,26,26,0.15);
 }
 
 /* Responsive */
 @media (max-width: 900px) {
-  .container {
+  .main {
     margin-left: 0;
     padding: 20px 5px;
   }
-
   .sidebar {
     position: static;
     width: 100%;
     height: auto;
   }
-
   .user-list {
     padding: 10px;
   }
-
   .user-list th,
   .user-list td {
     padding: 8px 4px;
   }
 }
-
 @media (max-width: 600px) {
   .user-list table,
   .user-list thead,
@@ -195,23 +198,19 @@ body {
     display: block;
     width: 100%;
   }
-
   .user-list tr {
     margin-bottom: 1rem;
   }
-
   .user-list th {
     background: #7d1a1a;
     color: #fff;
     text-align: left;
   }
-
   .user-list td {
     border-bottom: 1px solid #eee;
     position: relative;
     padding-left: 50%;
   }
-
   .user-list td:before {
     position: absolute;
     left: 10px;
