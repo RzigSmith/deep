@@ -1,5 +1,6 @@
 <?php
 require_once "includes/config.php";
+require_once "welcome.php";
 try {
   $db = new PDO(
     'mysql:host=localhost;dbname=ecommerce_db',
@@ -28,7 +29,7 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmithCollection</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/monindex.css" />
+  <link rel="stylesheet" href="assets/css/monaccueil.css" />
 </head>
 <script>
   window.addEventListener('scroll', function() {
@@ -49,6 +50,8 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
 
             <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
               echo '<li><a href="login.php">Connexion</a></li>';
+            } elseif (isset($_SESSION["role"]) && $_SESSION["role"] === "admin") {
+              echo '<li><a href="admin/dashboard.php">Dashboard</a></li>';
             } else {
               echo '<li><a href="profile.php">Profile</a></li>';
             } ?>

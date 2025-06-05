@@ -1,0 +1,130 @@
+body {
+    background-color: aliceblue;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+}
+
+.sidebar {
+    width: 220px;
+    background-image: url('../assets/images/sidebar.jpeg');
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    color: #fff;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding-top: 30px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 30px;
+    display: block;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background: #444;
+}
+
+.main {
+    margin-left: 240px;
+    padding: 40px 30px;
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: #333;
+}
+
+.stats-cards {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-image: url('../assets/images/good.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    padding: 30px 40px;
+    flex: 1 1 200px;
+    min-width: 200px;
+    text-align: center;
+}
+
+.card h3 {
+    margin: 0 0 10px 0;
+    color: #b64c4c;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.card .stat {
+    font-size: 2.2rem;
+    color: #1273d4;
+    font-weight: bold;
+}
+
+.chart-container {
+    background-image: url('../assets/images/good.jpeg');
+    color: #b64c4c;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 900px) {
+    .main {
+        margin-left: 0;
+        padding: 20px 5px;
+    }
+
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+    }
+
+    .stats-cards {
+        flex-direction: column;
+        gap: 15px;
+    }
+}

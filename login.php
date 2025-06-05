@@ -2,6 +2,7 @@
 // Connexion à la base des données
 require_once 'includes/config.php';
 
+session_start();
 
 $error = ''; // Variable pour stocker les messages d'erreur
 
@@ -28,12 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION["email"] = $user['email'];
                 $_SESSION["is_admin"] = $user['is_admin'];
                 $_SESSION["created_at"] = $user['created_at'];
+                $_SESSION["role"] = $user['is_admin'] ? "admin" : "client"; // <-- AJOUT
 
                 // Redirection en fonction du rôle
                 if ($user['is_admin']) {
                     header("Location: admin/dashboard.php");
                 } else {
-                    header("Location: welcome.php");
+                    header("Location: index.php");
                 }
                 exit;
             } else {
@@ -44,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>

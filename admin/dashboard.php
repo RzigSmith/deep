@@ -37,7 +37,7 @@ foreach (array_reverse($stats) as $row) {
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Admin</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mydashboard.css">
     <style>
     </style>
 </head>
