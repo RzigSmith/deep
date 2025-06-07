@@ -1,2 +1,1 @@
-# deep
-site e-commerce
+> Ce projet est un exemple pédagogique de site e-c
