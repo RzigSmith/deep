@@ -1,8 +1,12 @@
 <?php
-require_once 'config.php';
+session_start(); // Démarre la session
+ require_once  dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
+$db = loginDatabase(); // Connexion à la base de données
+$essaie = $db->prepare("SELECT * FROM users WHERE id = ?");
+$essaie->execute([$_SESSION['user']['id']]);
 
-// Vérifier si l'utilisateur est connecté et est un administrateur
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+//Verifivation si l'utilisateur est administrateur 
+if (!isset($_SESSION['user']) && $_SESSION['user']['role'] !== 'admin') {
     $_SESSION['error_message'] = "Accès refusé. Vous devez être administrateur pour accéder à cette page.";
     header('Location: login_admin.php');
     exit;

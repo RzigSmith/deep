@@ -1,6 +1,8 @@
 <?php
 
-require_once 'config.php'; // Fichier de configuration (connexion DB)
+session_start(); // Démarre la session
+require_once  dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
+$db = loginDatabase(); // Connexion à la base de données
 
 // Vérifier si l'utilisateur est connecté et est un administrateur
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
@@ -28,7 +30,7 @@ if (isset($_POST['add_product'])) {
     $stmt = $db->prepare("INSERT INTO products name, description, price, image) VALUES (?, ?, ?, ?)");
     $stmt->execute([$name, $description, $price, $image]);
 
-    header("Location: admin/admin.php?success=1"); 
+    header("Location: admin/admin.php?success=1");
     // Rédirection pour le rechargement du formulaire
     exit;
 }
@@ -108,7 +110,7 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= htmlspecialchars($product['price']) ?>$</td>
                         <td><img src="<?= htmlspecialchars($product['image']) ?>" width="100"></td>
                         <td>
-                          <button type="submit" id="modify"> <a href="edit_product.php?id=<?= $product['id'] ?>">Modifier</a> </button> | 
+                            <button type="submit" id="modify"> <a href="edit_product.php?id=<?= $product['id'] ?>">Modifier</a> </button> |
                             <button type="submit" id="remove"><a href="delete_product.php?id=<?= $product['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">Supprimer</a>
                         </td>
                     </tr>

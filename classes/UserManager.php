@@ -16,5 +16,4 @@ class UserManager {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Ajoute d'autres méthodes métier ici (création, suppression, etc.)
 }

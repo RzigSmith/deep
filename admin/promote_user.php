@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-session_start();
-
+session_start(); // Démarre la session
+ require_once  dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
+$db = loginDatabase(); // Connexion à la base de données
 // Vérifier si l'utilisateur est connecté et est un administrateur
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     $_SESSION['error_message'] = "Accès refusé. Vous devez être administrateur pour effectuer cette action.";

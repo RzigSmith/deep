@@ -1,9 +1,7 @@
 <?php
-try {
-    $db = new PDO("mysql:host=localhost;dbname=ecommerce_db", "root", "");
-} catch (PDOException $e) {
-    echo "erreur lors de la connection à la base des donées". $e->getMessage();
-}
+session_start(); // Démarre la session
+ require_once  dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
+$db = loginDatabase(); // Connexion à la base de données
 
 // $reponse = $db->query("SELECT *FROM contacts ORDER BY date_message");
 // while ($donnees = $reponse->fetch()) {

@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/db.php';
 require_once 'ProductManager.php';
+$db = loginDatabase();
 
 $productManager = new ProductManager($db);
 $products = $productManager->getAllProducts();

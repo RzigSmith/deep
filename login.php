@@ -8,6 +8,7 @@ $error = ''; // Variable pour stocker les messages d'erreur
 
 // Traitement du formulaire de connexion
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $db = loginDatabase();
     $username = trim($_POST['username'] ?? '');
     $password = trim($_POST['password'] ?? '');
 

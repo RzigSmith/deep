@@ -1,5 +1,7 @@
 <?php
-require_once 'config.php';
+session_start(); // Démarre la session
+ require_once  dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
+$db = loginDatabase(); // Connexion à la base de données
 
 $data = [];
 

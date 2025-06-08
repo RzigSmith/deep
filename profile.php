@@ -1,7 +1,7 @@
 <?php
 require_once 'includes/config.php';
 require_once 'welcome.php';
-
+$db = loginDatabase() ;
 $stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);

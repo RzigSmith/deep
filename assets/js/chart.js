@@ -16,7 +16,7 @@ new Chart(ctx, {
                 borderWidth: 1
             },
             {
-                label: 'Ventes (€)',
+                label: 'Ventes ($)',
                 data: salesData,
                 backgroundColor: 'rgba(46, 204, 113, 0.7)',
                 borderColor: 'rgba(39, 174, 96, 1)',
