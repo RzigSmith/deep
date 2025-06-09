@@ -1,29 +1,21 @@
 <?php
-// Connexion à la base de données
-try {
-    $db = new PDO('mysql:host=localhost;dbname=ecommerce_db', 'root', '');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Erreur de connexion: " . $e->getMessage());
-}
 
-// Configuration de la session sécurisée
-session_set_cookie_params([
-    'lifetime' => 3600,
-    'path' => '/',
-    'secure' => true,
-    'httponly' => true,
-    'samesite' => 'Strict'
-]);
 session_start();
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
+$db = loginDatabase(); // Connexion à la base de données	
+$essaie = $db->prepare("SELECT * FROM users WHERE id = ?");
+$essaie->execute([$_SESSION['user']['id']]);
 
-// Fonction pour nettoyer les entrées
-function sanitize($data) {
-    return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
+
+//Verifivation si l'utilisateur est administrateur 
+if (!isset($_SESSION['user']) && $_SESSION['user']['role'] !== 'admin') {
+    $_SESSION['error_message'] = "Accès refusé. Vous devez être administrateur pour accéder à cette page.";
+    header('Location: ../login.php');
+    exit;
 }
 
-// Vérifier si l'utilisateur est connecté
-function isLoggedIn() {
-    return isset($_SESSION['user']);
-}
 
+$stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+?>

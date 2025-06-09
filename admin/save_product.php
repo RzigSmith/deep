@@ -1,7 +1,7 @@
 <?php
-session_start(); // Démarre la session
- require_once  dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
-$db = loginDatabase(); // Connexion à la base de données
+
+include_once "config.php";
+
 
 // Ajout des produits 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {

@@ -1,17 +1,5 @@
 <?php
-session_start(); // Démarre la session
- require_once  dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
-$db = loginDatabase(); // Connexion à la base de données
-$essaie = $db->prepare("SELECT * FROM users WHERE id = ?");
-$essaie->execute([$_SESSION['user']['id']]);
-
-//Verifivation si l'utilisateur est administrateur 
-if (!isset($_SESSION['user']) && $_SESSION['user']['role'] !== 'admin') {
-    $_SESSION['error_message'] = "Accès refusé. Vous devez être administrateur pour accéder à cette page.";
-    header('Location: login_admin.php');
-    exit;
-}
-
+include_once "config.php";
 // Statistiques globales
 $userCount = $db->query("SELECT COUNT(*) FROM users")->fetchColumn();
 $productCount = $db->query("SELECT COUNT(*) FROM products")->fetchColumn();
@@ -38,6 +26,7 @@ foreach (array_reverse($stats) as $row) {
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Admin</title>
@@ -45,14 +34,17 @@ foreach (array_reverse($stats) as $row) {
     <style>
     </style>
 </head>
+
 <body>
     <div class="sidebar">
         <h2>Mon Dashboard</h2>
         <ul>
             <li><a href="#" class="active">Accueil</a></li>
-            <li><a href="users.php">Utilisateurs</a></li>
-            <li><a href="statistic.php">Statistiques</a></li>
+            <li><a href="manage_users.php">Gestion des utilisateurs</a></li>
+            <li><a href="dashboard.php">Statistiques</a></li>
             <li><a href="admin_profile.php">Profil</a></li>
+            <li><a href="admin.php">Gestion des articles</a></li>
+            <li><a href="messages.php">Mes messages</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>
     </div>
@@ -99,8 +91,7 @@ foreach (array_reverse($stats) as $row) {
             type: 'bar',
             data: {
                 labels: months,
-                datasets: [
-                    {
+                datasets: [{
                         label: 'Commandes',
                         data: orderData,
                         backgroundColor: 'rgba(52, 152, 219, 0.7)',
@@ -123,17 +114,26 @@ foreach (array_reverse($stats) as $row) {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        title: { display: true, text: 'Commandes' }
+                        title: {
+                            display: true,
+                            text: 'Commandes'
+                        }
                     },
                     y1: {
                         beginAtZero: true,
                         position: 'right',
-                        grid: { drawOnChartArea: false },
-                        title: { display: true, text: 'Ventes ($)' }
+                        grid: {
+                            drawOnChartArea: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Ventes ($)'
+                        }
                     }
                 }
             }
         });
     </script>
 </body>
+
 </html>

@@ -1,16 +1,7 @@
 <?php
 
-session_start(); // Démarre la session
-require_once  dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
-$db = loginDatabase(); // Connexion à la base de données
+include_once "config.php";
 
-// Vérifier si l'utilisateur est connecté et est un administrateur
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-    // Définir un message d'erreur dans la session
-    $_SESSION['error_message'] = "Accès refusé. Vous devez être administrateur pour accéder à cette page.";
-    header('Location: login_admin.php');
-    exit;
-}
 //  Traitement du formulaire d'ajout
 if (isset($_POST['add_product'])) {
     $name = $_POST['name'];

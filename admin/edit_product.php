@@ -1,13 +1,5 @@
 <?php
-session_start(); // Démarre la session
- require_once  dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
-$db = loginDatabase(); // Connexion à la base de données
-
-// Vérifier si l'utilisateur est connecté et est un administrateur
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-    header('Location: login_admin.php');
-    exit;
-}
+include_once "config.php";
 
 // Vérifier si un ID de produit est passé dans l'URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {
