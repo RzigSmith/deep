@@ -1,11 +1,8 @@
 <?php
 require_once 'includes/config.php';
+require_once 'welcome.php';
 
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit;
-}
+$db = loginDatabase();
 
 // Récupérer les adresses de l'utilisateur
 $stmt = $db->prepare("SELECT * FROM addresses WHERE user_id = ?");
@@ -56,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Adresses</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/adresses.css">
+    <link rel="stylesheet" href="assets/css/adresse.css">
 </head>
 <body>
     <div class="addresses-container">

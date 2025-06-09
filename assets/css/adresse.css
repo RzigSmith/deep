@@ -1,0 +1,199 @@
+/* Modern, Dynamic & Responsive Addresses CSS */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f5f5 60%, #ffeaea 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.addresses-container {
+    max-width: 700px;
+    margin: 2.5rem auto;
+    padding: 2rem 2rem 2.5rem 2rem;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(125,26,26,0.10), 0 1.5px 8px rgba(44,62,80,0.07);
+    animation: fadeIn 0.8s;
+    position: relative;
+    overflow: hidden;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(40px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #7d1a1a;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.address-form {
+    margin-bottom: 2rem;
+    background: #f8f8f8;
+    border-radius: 12px;
+    padding: 1.5rem 1rem 1rem 1rem;
+    box-shadow: 0 2px 8px #7d1a1a11;
+    animation: fadeIn 1s;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #7d1a1a;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1.5px solid #eee;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    background: #faf9f9;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+input[type="text"]:focus {
+    border-color: #7d1a1a;
+    box-shadow: 0 0 0 2px #ff6b6b33;
+    outline: none;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    background: linear-gradient(90deg, #7d1a1a 60%, #ff6b6b 100%);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #7d1a1a11;
+    transition: background 0.3s, transform 0.2s;
+}
+.btn:hover {
+    background: linear-gradient(90deg, #ff6b6b 60%, #7d1a1a 100%);
+    transform: translateY(-2px) scale(1.03);
+}
+.btn-danger {
+    background: linear-gradient(90deg, #e74c3c 60%, #c0392b 100%);
+}
+.btn-danger:hover {
+    background: linear-gradient(90deg, #c0392b 60%, #e74c3c 100%);
+}
+
+.no-addresses {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 1.5rem;
+}
+
+.address-list {
+    list-style: none;
+    padding: 0;
+}
+
+.address-item {
+    padding: 1.1rem 1rem 1rem 1rem;
+    border: 1.5px solid #eee;
+    border-radius: 10px;
+    margin-bottom: 1.2rem;
+    background: #f9f9f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 1px 6px #7d1a1a11;
+    transition: box-shadow 0.3s, background 0.3s;
+    animation: fadeIn 0.7s;
+}
+.address-item:hover {
+    background: #ffeaea;
+    box-shadow: 0 4px 16px #ff6b6b22;
+}
+.address-item p {
+    margin: 0;
+    color: #333;
+    font-size: 1rem;
+    flex: 1;
+    word-break: break-word;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    animation: fadeIn 0.7s;
+}
+.alert-success {
+    background-color: rgba(75, 181, 67, 0.1);
+    color: #4bb543;
+    border: 1px solid rgba(75, 181, 67, 0.3);
+}
+.alert-danger {
+    background-color: rgba(255, 51, 51, 0.1);
+    color: #ff3333;
+    border: 1px solid rgba(255, 51, 51, 0.3);
+}
+
+/* Decorative dynamic circle */
+.addresses-container::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #ff6b6b33 60%, transparent 100%);
+    z-index: 0;
+    border-radius: 50%;
+    animation: float 3s infinite alternate;
+}
+@keyframes float {
+    from { transform: translateY(0);}
+    to { transform: translateY(20px);}
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .addresses-container {
+        padding: 1rem 0.3rem 1.5rem 0.3rem;
+    }
+    .section-title {
+        font-size: 1.2rem;
+    }
+    .address-form {
+        padding: 1rem 0.2rem 0.7rem 0.2rem;
+    }
+    .address-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem 0.5rem 0.7rem 0.5rem;
+    }
+    .btn, .btn-danger {
+        width: 100%;
+        margin-top: 0.7rem;
+    }
+}

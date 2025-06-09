@@ -1,0 +1,209 @@
+/* Modern, Dynamic & Responsive Contact CSS */
+body {
+    background: linear-gradient(135deg, #f5f5f5 60%, #ffeaea 100%);
+    color: #333;
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* Header */
+.header {
+    padding: 24px 0 0 0;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+    position: relative;
+}
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #7d1a1a;
+    letter-spacing: 2px;
+}
+.logo span {
+    color: #ff6b6b;
+}
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+.nav-links li {
+    margin: 0;
+}
+.nav-links a {
+    text-decoration: none;
+    color: #7d1a1a;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s;
+    position: relative;
+    padding: 8px 0;
+}
+.nav-links a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #ff6b6b;
+    transition: width 0.3s;
+    position: absolute;
+    left: 0; bottom: -2px;
+}
+.nav-links a:hover,
+.nav-links a.active {
+    color: #ff6b6b;
+}
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+/* Contact Container */
+.contact-container {
+    max-width: 500px;
+    margin: 48px auto 40px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px #7d1a1a11;
+    padding: 2.5rem 2rem 2rem 2rem;
+    animation: fadeIn 0.8s;
+    position: relative;
+    overflow: hidden;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(40px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+.contact-container::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #ff6b6b33 60%, transparent 100%);
+    z-index: 0;
+    border-radius: 50%;
+    animation: float 3s infinite alternate;
+}
+@keyframes float {
+    from { transform: translateY(0);}
+    to { transform: translateY(20px);}
+}
+
+.contact-container h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #7d1a1a;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.contact-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    z-index: 1;
+    position: relative;
+}
+
+.contact-container input,
+.contact-container textarea {
+    padding: 0.8rem;
+    border: 1.5px solid #eee;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #faf9f9;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-family: inherit;
+}
+.contact-container input:focus,
+.contact-container textarea:focus {
+    border-color: #7d1a1a;
+    box-shadow: 0 0 0 2px #ff6b6b33;
+    outline: none;
+}
+
+.contact-container button {
+    background: linear-gradient(90deg, #7d1a1a 60%, #ff6b6b 100%);
+    color: #fff;
+    border: none;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px #7d1a1a11;
+}
+.contact-container button:hover {
+    background: linear-gradient(90deg, #ff6b6b 60%, #7d1a1a 100%);
+    transform: translateY(-2px) scale(1.04);
+}
+
+.contact-container .success {
+    color: #2e7d32;
+    background: #e8f5e9;
+    padding: 0.7rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+    animation: fadeIn 0.7s;
+}
+
+.contact-container .error {
+    color: #c62828;
+    background: #ffebee;
+    padding: 0.7rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+    animation: shake 0.3s;
+}
+@keyframes shake {
+    0% { transform: translateX(0);}
+    25% { transform: translateX(-5px);}
+    50% { transform: translateX(5px);}
+    75% { transform: translateX(-5px);}
+    100% { transform: translateX(0);}
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .contact-container {
+        padding: 1.2rem 0.7rem 1.5rem 0.7rem;
+        max-width: 98vw;
+    }
+    .contact-container h1 {
+        font-size: 1.3rem;
+    }
+    .contact-container button {
+        font-size: 1rem;
+    }
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+}

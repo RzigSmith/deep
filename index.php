@@ -30,6 +30,7 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
   <title>SmithCollection</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/monaccueil.css" />
+  <!-- <link rel="stylesheet" href="assets/css/front.css" /> -->
 </head>
 <script>
   window.addEventListener('scroll', function() {

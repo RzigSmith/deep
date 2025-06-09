@@ -51,20 +51,30 @@ if (isset($_GET['action'], $_GET['id'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/panier.css">
+    <link rel="stylesheet" href="../assets/css/carts.css">
     <title>Panier</title>
 </head>
 
 <body class="cart">
     
     <header class="cart-header">
-        <nav>
-            <ul>
-                <li><a href="../index.php">Accueil</a></li>
-                <li><a href="../classes/product.php">Boutique</a></li>
-                <li><a href="cart.php" class="active">Panier</a></li>
-            </ul>
-        </nav>
+            <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">Smith<span>Collection</span></div>
+                <ul class="nav-links">
+                    <li><a href="../index.php">Accueil</a></li>
+                    <li><a href="../classes/product.php">Boutique</a></li>
+                    <div class="btn-group">
+                        <li> <a href="../api/cart.php">Panier</a></li>
+                    </div>
+                    <li><a href="../classes/contact.php">Contact</a></li>
+
+                </ul>
+               
+            </nav>
+        </div>
+    </header>
     </header>
 
     <section>
