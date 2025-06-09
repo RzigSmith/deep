@@ -25,12 +25,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($user && password_verify($password, $user['password'])) {
                 // Démarrage de la session
                 $_SESSION["loggedin"] = true;
+                $_SESSION["user"] = true; 
                 $_SESSION["user_id"] = $user['id'];
                 $_SESSION["username"] = $user['username'];
                 $_SESSION["email"] = $user['email'];
                 $_SESSION["is_admin"] = $user['is_admin'];
                 $_SESSION["created_at"] = $user['created_at'];
                 $_SESSION["role"] = $user['is_admin'] ? "admin" : "client"; // <-- AJOUT
+                  if ($user['is_admin'] === 1) {
+                // Connexion réussie
+                $_SESSION['user'] = [
+                    'id' => $user['id'],
+                    'username' => $user['username'],
+                    'role' => $user['role'], // Récupération du rôle
+                    'is_admin' => true
+                ];
+            }
+                // Régénération de l'ID de session pour prévenir le fixation
+                session_regenerate_id(true);
+
 
                 // Redirection en fonction du rôle
                 if ($user['is_admin']) {

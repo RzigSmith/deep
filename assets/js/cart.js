@@ -116,10 +116,11 @@ function updateCartDisplay() {
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-item');
         cartItem.innerHTML = `
-            <div class="cart-item-info">
-             <img src="../admin/${image}" alt="${name}">
-            </div>
-                <div class="cart-item-info">
+        <div class="cart-item-flex" style="display:flex;">
+                <div class="img">
+                <img src="../admin/${image}" alt="${name}">
+                </div>
+                <div class="cart-item-info" ">
                     <div class="cart-item-title">${name}</div>
                     <div class="cart-item-price">${price.toFixed(2)}$</div>
                         <div class="cart-item-quantity">
@@ -129,7 +130,7 @@ function updateCartDisplay() {
                         </div>
                     <div class="remove-item" data-id="${id}">Supprimer</div>
                 </div>
-          
+          </div>
         `;
         cartContent.appendChild(cartItem);
     });

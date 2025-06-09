@@ -14,7 +14,7 @@ $products = $productManager->getAllProducts();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nos Produits</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/shop.css">
+    <link rel="stylesheet" href="../assets/css/shopping.css">
 </head>
 
 <body>
@@ -75,7 +75,7 @@ $products = $productManager->getAllProducts();
         <div class="cart">
             <span class="close-cart"><i class="fas fa-times"></i></span>
             <h2>Votre Panier</h2>
-            <div class="cart-content">
+            <div class="cart-content" style="display: flex;">
         </div>
             <div class="cart-total">
                 <span>Total : </span>
@@ -85,7 +85,7 @@ $products = $productManager->getAllProducts();
         </div>
     </div>
 
-    <script src="../assets/js/carts.js"></script>
+    <script src="../assets/js/cart.js"></script>
 
 </body>
 
