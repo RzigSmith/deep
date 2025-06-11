@@ -2,7 +2,7 @@
 require_once 'includes/config.php';
 require_once 'welcome.php';
 $db = loginDatabase();
-
+$total = $_GET['order_items'] ?? '';
 
 // Récupérer les commandes de l'utilisateur
 $stmt = $db->prepare("

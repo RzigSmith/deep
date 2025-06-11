@@ -1,156 +1,98 @@
 <?php
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'db.php';
-$db = loginDatabase(); // Connexion à la base de données	
-
+require_once '../includes/db.php';
 require_once '../welcome.php';
 $db = loginDatabase();
-$total = $_GET['order_items'] ?? '';
-$id = $_GET['orders'] ?? '';
-$order_id = $_GET['order_id'] ?? ($_SESSION['order_id'] ?? '');
 
+$total = $_GET['order_items'] ?? '';
 $errors = [];
 $success = false;
+
+// Protéger l'accès
+if (!isset($_SESSION['user_id'], $_SESSION['cart'], $_SESSION['order_id'])) {
+    header('Location: ../login.php');
+    exit;
+}
+
+// Traitement lors de la confirmation de commande
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $order_id = $_SESSION['order_id'];
+    $cart = $_SESSION['cart'];
+
+    foreach ($cart as $product_id => $quantity) {
+        // Sécuriser les données
+        $product_id = intval($product_id);
+        $quantity = intval($quantity);
+
+        // Récupérer le prix du produit
+        $stmt = $db->prepare('SELECT price FROM products WHERE id = ?');
+        $stmt->execute([$product_id]);
+        $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$product) {
+            $errors[] = "Produit introuvable pour l'ID $product_id.";
+            continue;
+        }
+        $price = $product['price'];
+
+        // Valider la quantité
+        if ($quantity <= 0) {
+            $errors[] = "Quantité invalide pour le produit ID $product_id.";
+            continue;
+        }
+
+        // Enregistrer dans la base de données
+        $stmt = $db->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
+        if (!$stmt->execute([$order_id, $product_id, $quantity, $price])) {
+            $errors[] = "Erreur lors de la confirmation de la commande pour le produit $product_id.";
+        }
+    }
+
+    if (empty($errors)) {
+        // Mettre à jour le statut de la commande
+        $stmt = $db->prepare("UPDATE orders SET status = 'En cours' WHERE id = ?");
+        $stmt->execute([$order_id]);
+
+        // Vider le panier
+        unset($_SESSION['cart']);
+
+        $success = true;
+
+        // Rediriger vers une page de confirmation
+        header('Location: ../order.php?orders=' . urlencode($total));
+        exit;
+    }
+}
 ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>order_items</title>
 </head>
-
 <body>
-    <form action="order_items.php" method="post" id="orderForm">
+    <form action="order_items.php?order_items=<?= htmlspecialchars($total) ?>" method="post" id="orderForm">
         <h2>Confirmer votre commande</h2>
-        <label for="order_id">Id command</label>
-        <input type="number" name="order_id" value="<?= $_SESSION['order_id'] ?? '' ?>">
-        <label for="product_id">Id du produit</label>
-        <input type="number" name="product_id" value="<?= implode(', ', array_keys($_SESSION['cart'])) ?>" >
-        <label for="quantity">Quantité</label>
-        <input type="text" name="quantity" value="<?= array_sum($_SESSION['cart']) ?>">
-        <label for="price">Prix</label>
-        <input type="text" name="price" value="<?= $total_amount ?>">
-
-        <button type="submit" form="orderForm" href="../order.php?orders<?= $total ?>">Confirmer la commande</button>
+        <label for="order_id">Id commande</label>
+        <input type="text" name="order_id" value="<?= htmlspecialchars($_SESSION['order_id']) ?>" readonly>
+        <label for="product_id">Ids des produits</label>
+        <input type="text" name="product_id" value="<?= htmlspecialchars(implode(', ', array_keys($_SESSION['cart']))) ?>" readonly>
+        <label for="quantity">Quantité totale</label>
+        <input type="text" name="quantity" value="<?= htmlspecialchars(array_sum($_SESSION['cart'])) ?>" readonly>
+        <label for="price">Prix total</label>
+        <input type="text" name="price" value="<?= htmlspecialchars($total) ?>" readonly>
+        <button type="submit">Confirmer la commande</button>
     </form>
-    
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Récupérer les données du formulaire
-        // $order_id = $_POST['order_id'] ?? '';
-        // $product_id = $_POST['product_id'] ?? '';
-        // $quantity = $_POST['quantity'] ?? '';
-        // $price = $_POST['price'] ?? '';
-
-
-        $success = true;
-        $_SESSION['orders'] = [
-            'id' => $db->lastInsertId(),
-            'order_id' => $db->lastInsertId() ?? '',
-            'total_amout' => $_SESSION['total_amount'] ?? $total,
-            'quatity' => $_SESSION['quantity'] ?? array_sum($_SESSION['cart']),
-            'product_id' => $_SESSION['product_id'] ?? implode(', ', array_keys($_SESSION['cart'])),
-            'user_id' => $_SESSION['user_id'],
-            'price' => $_SESSION['price'] ?? $total,
-
-        ];
-    }
-    // Vérifier si l'ID de commande est défini
-    if (isset($_POST['order_id'])) {
-        $order_id = $_POST['order_id'];
-    } else {
-        echo "<p>Erreur : ID de commande manquant.</p>";
-        exit;
-    }
-
-    // Recuperation des informations dans a base des données dans la base des données
-
-    foreach ($_SESSION['cart'] as $product_id => $quantity) {
-        // Récupérer le prix du produit
-        $stmt = $db->prepare('SELECT price, id FROM products WHERE id = ?');
-        $stmt->execute([$product_id]);
-        $product = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($product) {
-            $price = $product['price'];
-        } else {
-            $errors[] = 'Produit introuvable pour l\'ID ' . $product_id;
-            continue;
-        }
-        $product_id = $_POST['product_id'] ?? '';
-        $quantity = $_POST['quantity'] ?? '';
-        $price = $_POST['price'] ?? '';
-
-        foreach ($_SESSION['cart'] as $product_id => $quantity) {
-            // Vérifier si le produit existe dans la base de données
-            $stmt = $db->prepare("SELECT price FROM products WHERE id = ?");
-            $stmt->execute([$product_id]);
-            $product = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($product) {
-                $price = $product['price'];
-            } else {
-                echo "<p>Produit avec ID $product_id non trouvé.</p>";
-                continue;
-            }
-            //Vérifier si l'ID de la commande existe
-
-        }
-        if (!is_numeric($quantity) || $quantity <= 0) {
-            echo "<p>Quantité invalide pour le produit avec ID $product_id.</p>";
-            continue;
-        }
-
-        foreach ($_SESSION['cart'] as $orders_id ) {
-            $stmt = $db->prepare("SELECT id FROM orders WHERE user_id = ?");
-            $stmt->execute([$order_id]);
-            $orders = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($orders) {
-                $orders_id = $_POST['id'] ?? '';
-            } else {
-                $errors[] = 'l\'ID de la commande est introuvablé ' . $order_id;
-                continue;
-            }
-        }
-
-
-
-
-        // Valider les données
-        if (empty($order_id) || empty($product_id) || empty($quantity) || empty($price)) {
-            echo "<p>Veuillez remplir tous les champs.</p>";
-        } else {
-            // Enregistrer la commande dans la base de données
-            $stmt = $db->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
-            if ($stmt->execute([$order_id, $product_id, $quantity, $price])) {
-                echo "<p>Commande confirmée avec succès !</p>";
-            } else {
-                echo "<p>Erreur lors de la confirmation de la commande.</p>";
-            }
-            // Calculer le montant total de la commande
-            $total_amount = $quantity * $price;
-
-            // Mettre à jour le statut de la commande
-            $stmt = $db->prepare("UPDATE orders SET status = 'En cours' WHERE id = ?");
-            $stmt->execute([$order_id]);
-            echo "<p>Statut de la commande mis à jour.</p>";
-            // Enregistrer les informations de la commande dans la session
-            $_SESSION['orders'] = [
-                'id' => $order_id,
-                'product_id' => $product_id,
-                'quantity' => $quantity,
-                'price' => $price,
-                'status' => 'En cours'
-            ];
-
-
-            // Vider le panier après la confirmation de la commande
-            unset($_SESSION['cart']);
-            // Rediriger vers la page de confirmation ou d'historique des commandes
-            header('Location: ../' . 'order.php?orders=' . $total_amount);
-        }
-    }
-
-    ?>
+    <?php if (!empty($errors)): ?>
+        <div class="error">
+            <ul>
+            <?php foreach ($errors as $error): ?>
+                <li><?= htmlspecialchars($error) ?></li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php elseif ($success): ?>
+        <div class="success">Commande confirmée avec succès !</div>
+    <?php endif; ?>
 </body>
-
 </html>
