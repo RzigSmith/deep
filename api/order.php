@@ -34,6 +34,7 @@ $total = $_GET['orders'] ?? '';
                 <input type="id" name="user_id" value="<?= $_SESSION['user_id'] ?>">
                 <label for="total_amount">Montant total</label>
                 <input type="price" name="total_amount" value="<?= $total ?>">
+              
                 <label for="status">Statut de la commande</label>
                 <select name="status" id="status">
                     <option value="en attente">En attente</option>
@@ -46,7 +47,10 @@ $total = $_GET['orders'] ?? '';
                 <input type="text" name="customer_address" placeholder="Entrez votre adresse de livraison" required>
                
 
-                <button type="submit" href="order_items.php?order_items=<?= $total ?>">Confirmer la commande</button>
+                <button type="submit" >Confirmer la commande</button>
+
+                <a href="order_items?orders=<?=$total?>">montant</a>
+                
               
             </form>
 
@@ -98,6 +102,7 @@ $total = $_GET['orders'] ?? '';
                     $stmt->execute([$user_id, $total_amount, $status, $customer_address]);
 
                     $success = true;
+                    $_SESSION['product_id'] = array_keys($_SESSION['cart']);
                     $_SESSION['orders'] = [
                         'id' => $db->lastInsertId(),
                         'user_id' => $user_id,
@@ -106,7 +111,13 @@ $total = $_GET['orders'] ?? '';
                         'order_date' => date('Y-m-d H:i:s'),
                         'custome_address' => $customer_address
                     ];
+                    $_SESSION['order_id'] = $db->lastInsertId();
                 }
+                //Récuperation des element du produits dans la base de données
+                $stmt = $db->prepare('SELECT * FROM products WHERE id = ?');
+                $stmt->execute([$product_id]);
+                $product_id = $stmt->fetch(PDO :: FETCH_ASSOC);
+                
                 // Vérifier si des erreurs sont présentes
                 if (!empty($errors)) {
                     echo '<div class="error">';
@@ -120,7 +131,8 @@ $total = $_GET['orders'] ?? '';
                     echo '<div class="success">Commande confirmée avec succès !</div>';
                 }
          
-                header('Location:order_items.php?order_items=' . $total_amount);
+                header('Location:order_items.php?order_id=' .$_SESSION['order_id'] . '&order_items=' . $total_amount);
+                exit;
              }
             ?>
         </div>

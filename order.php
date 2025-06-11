@@ -3,6 +3,7 @@ require_once 'includes/config.php';
 require_once 'welcome.php';
 $db = loginDatabase();
 
+
 // Récupérer les commandes de l'utilisateur
 $stmt = $db->prepare("
     SELECT o.id, o.order_date, o.total_amount, o.status, GROUP_CONCAT(p.name SEPARATOR ', ') AS products
@@ -58,7 +59,11 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <div class="orders-container">
             <h1 class="section-title">Mes Commandes</h1>
-
+        
+            <?php 
+            if (!empty($orders)) :?>
+            <p>Aucune commande trouvé</p>
+            <?php else : ?>
 
             <table class="orders-table">
                 <thead>
@@ -82,6 +87,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </tbody>
             </table>
+        <?php endif ?>
 
         </div>
 </body>
