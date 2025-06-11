@@ -4,7 +4,7 @@ $db = loginDatabase(); // Connexion à la base de données
 
 require_once '../welcome.php';
 $db = loginDatabase();
-$total = $_GET['order_id'] ?? '';
+$total = $_GET['order_items'] ?? '';
 $id = $_GET['orders'] ?? '';
 $order_id = $_GET['order_id'] ?? ($_SESSION['order_id'] ?? '');
 
@@ -30,7 +30,7 @@ $success = false;
         <label for="quantity">Quantité</label>
         <input type="text" name="quantity" value="<?= array_sum($_SESSION['cart']) ?>">
         <label for="price">Prix</label>
-        <input type="text" name="price" value="<?= $total ?>">
+        <input type="text" name="price" value="<?= $total_amount ?>">
 
         <button type="submit" form="orderForm" href="../order.php?orders<?= $total ?>">Confirmer la commande</button>
     </form>
