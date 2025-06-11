@@ -87,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Mettre à jour les informations de session
             $_SESSION['username'] = $username;
             $_SESSION['email'] = $email;
+            $_SESSION['avatar'] = $avatar;
 
             $success = "Votre profil a été mis à jour avec succès.";
         } catch (PDOException $e) {

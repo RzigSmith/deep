@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
         // Insert order into orders table
         try {
             $db->beginTransaction();
-               $stmtOrder = $db->prepare("INSERT INTO orders (customer_name, customer_email, customer_address, order_date) VALUES (?, ?, ?, NOW())");
+            $stmtOrder = $db->prepare("INSERT INTO orders (customer_name, customer_email, customer_address, order_date) VALUES (?, ?, ?, NOW())");
             $stmtOrder->execute([$customerName, $customerEmail, $customerAddress]);
             $orderId = $db->lastInsertId();
             $stmtItem = $db->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 }
             }
 
-             $db->commit();
+            $db->commit();
             $orderSuccess = true;
         } catch (Exception $e) {
             $db->rollBack();
@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -63,36 +64,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.6);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
 
-         .modal-overlay.active {
+        .modal-overlay.active {
             display: flex;
         }
+
         .modal {
             background: #fff;
             border-radius: 0.75rem;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
             max-width: 500px;
             width: 90%;
-                        font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif;
             color: #1f2937;
         }
+
         .modal h2 {
             font-size: 1.75rem;
             margin-bottom: 1rem;
             font-weight: 700;
         }
+
         .modal label {
             display: block;
             font-weight: 600;
             margin-bottom: 0.5rem;
             margin-top: 1rem;
         }
+
         .modal input[type="text"],
         .modal input[type="email"],
         .modal textarea {
@@ -103,11 +108,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
             font-size: 1rem;
             font-family: inherit;
             color: #374151;
-               }
+        }
+
         .modal textarea {
             resize: vertical;
             min-height: 80px;
         }
+
         .modal button {
             margin-top: 1.5rem;
             background-color: #111827;
@@ -120,7 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-.modal .close-btn {
+
+        .modal .close-btn {
             background: transparent;
             color: #6b7280;
             font-weight: 600;
@@ -131,11 +139,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
             top: 1rem;
             right: 1rem;
         }
+
         /* Disabled background scroll when modal open */
         body.modal-open {
             overflow: hidden;
         }
-         /* Error and success messages */
+
+        /* Error and success messages */
         .message {
             max-width: 500px;
             margin: 1rem auto;
@@ -143,33 +153,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
             text-align: center;
             font-family: 'Poppins', sans-serif;
         }
+
         .message.error {
             color: #b91c1c;
         }
+
         .message.success {
             color: #15803d;
         }
+
         /* Product card updates for form button alignment */
         .product-card .btn-group {
             margin-top: 1rem;
         }
-         .message {
+
+        .message {
             max-width: 500px;
             margin: 1rem auto;
             font-weight: 600;
             text-align: center;
             font-family: 'Poppins', sans-serif;
         }
+
         .message.error {
             color: #b91c1c;
         }
+
         .message.success {
             color: #15803d;
         }
+
         /* Product card updates for form button alignment */
         .product-card .btn-group {
             margin-top: 1rem;
         }
+
         .product-card .btn-order {
             background-color: #111827;
             color: white;
@@ -180,11 +198,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         .product-card .btn-order:hover {
             background-color: #374151;
         }
-         </style>
+    </style>
 </head>
+
 <body>
     <header>
         <div class="container">
@@ -213,18 +233,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 <div class="product-image">
                     <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" />
                 </div>
-                  <div class="product-info">
+                <div class="product-info">
                     <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>
                     <div class="product-price"><?= number_format($product['price'], 2, ',', ' ') ?> €</div>
                     <p class="product-description"><?= nl2br(htmlspecialchars($product['description'])) ?></p>
                     <div class="btn-group">
-                        <button 
-                            class="btn-order" 
-                            data-product-id="<?= $product['id'] ?>" 
+                        <button
+                            class="btn-order"
+                            data-product-id="<?= $product['id'] ?>"
                             data-product-name="<?= htmlspecialchars($product['name']) ?>"
                             data-product-price="<?= $product['price'] ?>"
-                            onclick="openOrderModal(<?= $product['id'] ?>, '<?= htmlspecialchars(addslashes($product['name'])) ?>', <?= $product['price'] ?>)"
-                        >Passer la commande</button>
+                            onclick="openOrderModal(<?= $product['id'] ?>, '<?= htmlspecialchars(addslashes($product['name'])) ?>', <?= $product['price'] ?>)">Passer la commande</button>
                     </div>
                 </div>
             </div>
@@ -242,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                 <p>Produit sélectionné: <strong id="selectedProductName"></strong></p>
                 <label for="customer_name">Nom complet</label>
                 <input type="text" id="customer_name" name="customer_name" required />
-               <label for="customer_email">Adresse e-mail</label>
+                <label for="customer_email">Adresse e-mail</label>
                 <input type="email" id="customer_email" name="customer_email" required />
                 <label for="customer_address">Adresse de livraison</label>
                 <textarea id="customer_address" name="customer_address" required></textarea>
@@ -258,6 +277,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
             document.getElementById('orderModal').classList.add('active');
             document.body.classList.add('modal-open');
         }
+
         function closeOrderModal() {
             document.getElementById('orderModal').classList.remove('active');
             document.body.classList.remove('modal-open');
@@ -269,4 +289,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
         });
     </script>
 </body>
+
 </html>

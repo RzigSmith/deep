@@ -56,25 +56,25 @@ if (isset($_GET['action'], $_GET['id'])) {
 </head>
 
 <body class="cart">
-    
-    <header class="cart-header">
-            <header>
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo">Smith<span>Collection</span></div>
-                <ul class="nav-links">
-                    <li><a href="../index.php">Accueil</a></li>
-                    <li><a href="../classes/product.php">Boutique</a></li>
-                    <div class="btn-group">
-                        <li> <a href="../api/cart.php">Panier</a></li>
-                    </div>
-                    <li><a href="../classes/contact.php">Contact</a></li>
 
-                </ul>
-               
-            </nav>
-        </div>
-    </header>
+    <header class="cart-header">
+        <header>
+            <div class="container">
+                <nav class="navbar">
+                    <div class="logo">Smith<span>Collection</span></div>
+                    <ul class="nav-links">
+                        <li><a href="../index.php">Accueil</a></li>
+                        <li><a href="../classes/product.php">Boutique</a></li>
+                        <div class="btn-group">
+                            <li> <a href="../api/cart.php">Panier</a></li>
+                        </div>
+                        <li><a href="../classes/contact.php">Contact</a></li>
+
+                    </ul>
+
+                </nav>
+            </div>
+        </header>
     </header>
 
     <section>
@@ -87,28 +87,29 @@ if (isset($_GET['action'], $_GET['id'])) {
                 $subtotal = $product['price'] * $quantity;
                 $total += $subtotal;
             ?>
-
-                <div class="cart-img">
-                    <img src="../admin/<?= htmlspecialchars($product['image']) ?>" alt="" width="60">
-                </div>
-                <div class="cart-item">
-                    <h3 class="cart-title"><?= htmlspecialchars($product['name']) ?></h3>
-                    <p><?= number_format($product['price'], 2) ?> $</p>
-                    <div class="cart-qty">
-                        <a href="cart.php?action=decrement&id=<?= $product['id'] ?>" class="qty-btn">−</a>
-                        <span class="qty-value"><?= $quantity ?></span>
-                        <a href="cart.php?action=increment&id=<?= $product['id'] ?>" class="qty-btn">+</a>
+                <div class="product-card">
+                    <div class="cart-img">
+                        <img src="../admin/<?= htmlspecialchars($product['image']) ?>" alt="" width="60">
                     </div>
-                    <a href="cart.php?action=remove&id=<?= $product['id'] ?>" class="btn-delete">Supprimer</a>
+                    <div class="cart-item">
+                        <h3 class="cart-title"><?= htmlspecialchars($product['name']) ?></h3>
+                        <p><?= number_format($product['price'], 2) ?> $</p>
+                        <div class="cart-qty">
+                            <a href="cart.php?action=decrement&id=<?= $product['id'] ?>" class="qty-btn">−</a>
+                            <span class="qty-value"><?= $quantity ?></span>
+                            <a href="cart.php?action=increment&id=<?= $product['id'] ?>" class="qty-btn">+</a>
+                        </div>
+                        <a href="cart.php?action=remove&id=<?= $product['id'] ?>" class="btn-delete">Supprimer</a>
+                    </div>
                 </div>
             <?php endforeach; ?>
 
-            <div class="total">
+            <div class="total" >
                 <strong>Quantité totale :</strong> <?= array_sum($_SESSION['cart']) ?><br>
-                <strong>Prix total :</strong> <?= number_format($total, 2) ?> €
+                <strong>Prix total :</strong> <?= number_format($total, 2) ?> $
             </div>
             <div class="cart-actions" style="margin-top:2rem; text-align:right;">
-                <a href="order.php" class="btn-order" style="
+                <a href="order.php?orders=<?= number_format($total, 2) ?>" class="btn-order" style="
                     display:inline-block;
                     background:#7d1a1a;
                     color:#fff;

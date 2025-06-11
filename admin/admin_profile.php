@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Mettre à jour les informations de session
             $_SESSION['username'] = $username;
             $_SESSION['email'] = $email;
+            $_SESSION['avatar'] = $avatar;
 
             $success = "Votre profil a été mis à jour avec succès.";
         } catch (PDOException $e) {
@@ -96,7 +97,7 @@ $errors = [];
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['nom'] ?? '');
+    $username = trim($_POST['username'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $new_password = $_POST['new_password'] ?? '';
 
@@ -116,8 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Si aucune erreur, mettre à jour les informations
     if (empty($errors)) {
         try {
-            $stmt = $db->prepare("UPDATE users SET username = ?, email = ? WHERE id = ?");
-            $stmt->execute([$username, $email, $_SESSION['user']['id']]);
+            $stmt = $db->prepare("UPDATE users SET username = ?, email = ?, avatar=? WHERE id = ?");
+            $stmt->execute([$username, $email,$avatar, $_SESSION['user']['id']]);
 
             // Mettre à jour le mot de passe si un nouveau est défini
             if (!empty($new_password)) {
@@ -129,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Mettre à jour les informations de session
             $_SESSION['user']['username'] = $username;
             $_SESSION['user']['email'] = $email;
-
+            $_SESSION['user']['avatar'] = $avatar;
             $success = "Profil mis à jour avec succès.";
         } catch (PDOException $e) {
             $errors[] = "Une erreur est survenue lors de la mise à jour : " . $e->getMessage();
@@ -153,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="profile-container">
         <!-- Sidebar -->
         <aside class="profile-sidebar">
-            <img src="../assets/images/<?= htmlspecialchars($_SESSION['avatar']) ?>"
+            <img src="../assets/images/<?= htmlspecialchars($_SESSION['avatar'] ?? 'default_avatar.png') ?>"
                  alt="Avatar" class="profile-avatar">
             <h2 class="profile-name"><?= htmlspecialchars($_SESSION['username']) ?></h2>
             <p class="profile-email"><?= htmlspecialchars($_SESSION['email']) ?></p>
