@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             // Recherche de l'utilisateur
-            $stmt = $db->prepare("SELECT id, username, password, email, is_admin, created_at FROM users WHERE username = ? LIMIT 1");
+            $stmt = $db->prepare("SELECT id, username, password, email, is_admin, created_at, avatar FROM users WHERE username = ? LIMIT 1");
             $stmt->execute([$username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION["is_admin"] = $user['is_admin'];
                 $_SESSION["created_at"] = $user['created_at'];
                 $_SESSION["role"] = $user['is_admin'] ? "admin" : "client"; // <-- AJOUT
+                $_SESSION["avatar"] = $user['avatar'] ?? 'default_avatar.png'; // <-- AJOUT
                   if ($user['is_admin'] === 1) {
                 // Connexion réussie
                 $_SESSION['user'] = [

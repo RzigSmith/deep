@@ -3,6 +3,7 @@ require_once 'includes/config.php';
 require_once 'welcome.php';
 $db = loginDatabase();
 $total = $_GET['order_items'] ?? '';
+$order= $_GET['order_id'] ?? '';
 
 // Récupérer les commandes de l'utilisateur
 $stmt = $db->prepare("
@@ -16,8 +17,8 @@ $stmt = $db->prepare("
         GROUP_CONCAT(CONCAT(p.name, ' (x', oi.quantity, ')') SEPARATOR ', ') AS products
     FROM orders o
     JOIN users u ON o.user_id = u.id
-    JOIN order_items oi ON o.id = oi.order_id
-    JOIN products p ON oi.product_id = p.id
+    LEFT JOIN order_items oi ON o.id = oi.order_id
+    LEFT JOIN products p ON oi.product_id = p.id
     WHERE o.user_id = ?
     GROUP BY o.id
     ORDER BY o.order_date DESC
@@ -69,8 +70,8 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h1 class="section-title">Mes Commandes</h1>
 
             <?php
-            if (!empty($orders)) : ?>
-                <p>Aucune commande trouvé</p>
+            if (empty($orders)) : ?>
+                <p>Aucune commande trouvée</p>
             <?php else : ?>
 
                 <table class="orders-table">
@@ -86,9 +87,9 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <tbody>
                         <?php foreach ($orders as $order): ?>
                             <tr>
-                                <td><?= htmlspecialchars($order['id']) ?></td>
+                                <td><?= htmlspecialchars($order['id'] ?? '')  ?></td>
                                 <td><?= htmlspecialchars(date('d/m/Y', strtotime($order['order_date']))) ?></td>
-                                <td><?= htmlspecialchars($order['products']) ?></td>
+                                <td><?= htmlspecialchars($order['products'] ?? '') ?></td>
                                 <td><?= htmlspecialchars(number_format($order['total_amount'], 2)) ?> $</td>
                                 <td><?= htmlspecialchars($order['status']) ?></td>
                             </tr>

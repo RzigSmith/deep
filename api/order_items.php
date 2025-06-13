@@ -56,10 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unset($_SESSION['cart']);
 
         $success = true;
+         $_SESSION['order_id'] = $db->lastInsertId();
 
-        // Rediriger vers une page de confirmation
-        header('Location: ../order.php?orders=' . urlencode($total));
+        header('Location: ../order.php?order_items=' . $total_amount . '&order_id=' . $order_id . urlencode($total));
         exit;
+
     }
 }
 ?>

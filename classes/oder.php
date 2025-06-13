@@ -6,6 +6,7 @@ $productManager = new ProductManager($db);
 $products = $productManager->getAllProducts();
 $orderSuccess = false;
 $orderError = "";
+$order= $_GET['order_id'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     // Basic validation and sanitation

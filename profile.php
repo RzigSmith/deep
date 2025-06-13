@@ -126,7 +126,7 @@ if ($db->query("SHOW TABLES LIKE 'favoris'")->fetch()) {
     <div class="profile-container">
         <!-- Sidebar -->
         <aside class="profile-sidebar">
-            <img src="./assets/images/<?= htmlspecialchars($_SESSION['avatar'] ?? '' ) ?>"
+            <img src="./assets/images/<?= htmlspecialchars($user['avatar'] ?? 'default_avatar.png') ?>"
                  alt="Avatar" class="profile-avatar">
             <h2 class="profile-name"><?= htmlspecialchars($_SESSION['username']) ?></h2>
             <p class="profile-email"><?= htmlspecialchars($_SESSION['email']) ?></p>
