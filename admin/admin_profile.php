@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         try {
             $stmt = $db->prepare("UPDATE users SET username = ?, email = ?, avatar=? WHERE id = ?");
-            $stmt->execute([$username, $email,$avatar, $_SESSION['user']['id']]);
+            $stmt->execute([$username, $email, $avatar, $_SESSION['user']['id']]);
 
             // Mettre à jour le mot de passe si un nouveau est défini
             if (!empty($new_password)) {
@@ -148,6 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Mon Profil</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/adminprofile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -155,11 +156,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Sidebar -->
         <aside class="profile-sidebar">
             <img src="../assets/images/<?= htmlspecialchars($_SESSION['avatar'] ?? 'default_avatar.png') ?>"
-                 alt="Avatar" class="profile-avatar">
+                alt="Avatar" class="profile-avatar">
             <h2 class="profile-name"><?= htmlspecialchars($_SESSION['username']) ?></h2>
             <p class="profile-email"><?= htmlspecialchars($_SESSION['email']) ?></p>
 
-        
+             <div class="notify-bell" id="notifyBell">
+                <i class="fas fa-bell"></i>
+                <span class="notify-count" id="notifyCount"></span>
+                <div class="notify-dropdown" id="notifyDropdown"></div>
+            </div>
             <ul>
                 <li><a href="admin_profile.php" class="active">Mon Profil</a></li>
                 <li><a href="dashboard.php">Tableau de bord</a></li>
@@ -167,8 +172,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li><a href="admin.php">Gestion Produits</a></li>
                 <li><a href="admin_settings.php">Paramètres</a></li>
                 <li><a href="messages.php">Mes messages</a></li>
+                <li><a href="orders.php">Commandes</a></li>
                 <li><a href="logout.php">Déconnexion</a></li>
             </ul>
+           
 
         </aside>
 

@@ -29,8 +29,9 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmithCollection</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/monaccueil.css" />
-  <!-- <link rel="stylesheet" href="assets/css/front.css" /> -->
+  <link rel="stylesheet" href="assets/css/acc.css" />
+  <link rel="stylesheet" href="assets/css/od.css" />
+  
 </head>
 <script>
   window.addEventListener('scroll', function() {
@@ -38,6 +39,18 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
     // Plus tu scrolles, plus l'opacité diminue (min 0.7)
     let opacity = 1 - Math.min(window.scrollY / 300, 0.3);
     header.style.opacity = opacity;
+  });
+  const burger = document.getElementById('burgerMenu');
+  const navLinks = document.querySelector('.nav-links');
+  burger.onclick = function() {
+      navLinks.classList.toggle('nav-active');
+      burger.classList.toggle('toggle');
+  };
+  document.addEventListener('click', function(e) {
+      if (!burger.contains(e.target) && !navLinks.contains(e.target)) {
+          navLinks.classList.remove('nav-active');
+          burger.classList.remove('toggle');
+      }
   });
 </script>
 
@@ -60,9 +73,15 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
             <li><a href="#">Nouveautés</a></li>
             <li><a href="classes/contact.php">Contact</a></li>
           </ul>
-          <div class="notification-icon">
+          <div class="notify-bell" id="notifyBell">
             <i class="fas fa-bell"></i>
-            <span class="notification-badge">0</span>
+            <span class="notify-count" id="notifyCount"></span>
+            <div class="notify-dropdown" id="notifyDropdown"></div>
+          </div>
+          <div class="burger" id="burgerMenu">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
 
         </nav>
@@ -119,8 +138,7 @@ $products = $db->query('SELECT * FROM products ORDER BY id LIMIT 0, 4')->fetchAl
 
 </section>
 </div>
-
-</style>
+<script src="assets/js/od.js"></script>
 </body>
 <footer>
   <div class="container">

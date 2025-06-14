@@ -56,11 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         unset($_SESSION['cart']);
 
         $success = true;
-         $_SESSION['order_id'] = $db->lastInsertId();
+        $_SESSION['order_id'] = $db->lastInsertId();
+
+        // Après création de la commande
+        $stmt = $db->prepare("INSERT INTO notifications (user_id, type, message) VALUES (?, 'confirmation', ?)");
+        $stmt->execute([$client_id, "Votre commande a bien été enregistrée."]);
 
         header('Location: ../order.php?order_items=' . $total_amount . '&order_id=' . $order_id . urlencode($total));
         exit;
-
     }
 }
 ?>
@@ -70,8 +73,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>order_items</title>
+    <link rel="stylesheet" href="../assets/css/od.css">
 </head>
+
 <body>
+    <header>
+    <nav class="navbar">
+        <div class="logo">Smith<span>Collection</span></div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/ghost/deep/classes/product.php">Boutique</a></li>
+            <li><a href="#">Nouveautés</a></li>
+            <li><a href="/ghost/deep/classes/contact.php">Contact</a></li>
+            <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true): ?>
+                <li><a href="/ghost/deep/login.php">Connexion</a></li>
+            <?php elseif (isset($_SESSION["role"]) && $_SESSION["role"] === "admin"): ?>
+                <li><a href="/ghost/deep/admin/orders.php">Commandes</a></li>
+            <?php else: ?>
+                <li><a href="/ghost/deep/profile.php">Profil</a></li>
+            <?php endif; ?>
+        </ul>
+        <div class="notify-bell" id="notifyBell">
+            <i class="fas fa-bell"></i>
+            <span class="notify-count" id="notifyCount"></span>
+            <div class="notify-dropdown" id="notifyDropdown"></div>
+        </div>
+        <div class="burger" id="burgerMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+    </header>
+
     <form action="order_items.php?order_items=<?= htmlspecialchars($total) ?>" method="post" id="orderForm">
         <h2>Confirmer votre commande</h2>
         <label for="order_id">Id commande</label>
@@ -87,13 +120,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if (!empty($errors)): ?>
         <div class="error">
             <ul>
-            <?php foreach ($errors as $error): ?>
-                <li><?= htmlspecialchars($error) ?></li>
-            <?php endforeach; ?>
+                <?php foreach ($errors as $error): ?>
+                    <li><?= htmlspecialchars($error) ?></li>
+                <?php endforeach; ?>
             </ul>
         </div>
     <?php elseif ($success): ?>
         <div class="success">Commande confirmée avec succès !</div>
     <?php endif; ?>
+    
+    <script src="../assets/js/ct.js"></script>
 </body>
+
 </html>

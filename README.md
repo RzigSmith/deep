@@ -2,6 +2,8 @@
 
 Smith Collection est une application web de e-commerce développée en PHP avec une architecture MVC simplifiée. Elle permet la gestion de produits, utilisateurs, commandes, panier, et propose une interface d'administration complète.
 
+---
+
 ## Fonctionnalités principales
 
 - **Gestion des utilisateurs** : inscription, connexion, profil, rôles (client/admin), adresses.
@@ -12,50 +14,70 @@ Smith Collection est une application web de e-commerce développée en PHP avec 
 - **Sécurité** : gestion de session, vérification des rôles, protection des pages sensibles, hashage des mots de passe.
 - **Front-end** : design responsive avec CSS personnalisé, interactions dynamiques en JavaScript (sans framework).
 
+---
+
 ## Structure du projet
 
 ```
 deep/
 │
 ├── admin/           # Interface et scripts d’administration (dashboard, gestion produits, utilisateurs, messages, etc.)
+│   ├── admin.php
+│   ├── admin_profile.php
+│   ├── config.php
 │   ├── dashboard.php
-│   ├── users.php
+│   ├── data.php
+│   ├── delete_product.php
+│   ├── edit_product.php
+│   ├── logout.php
+│   ├── manage_users.php
 │   ├── messages.php
-│   ├── ... (autres pages et CSS admin)
+│   ├── orders.php
+│   ├── promote_user.php
+│   ├── save_product.php
+│   ├── styles.css
+│   ├── users.css
+│   ├── mydashboard.css
+│   ├── messages.css
+│   └── uploads/         # Dossier pour les images uploadées par l’admin
 │
 ├── api/             # Endpoints AJAX pour le panier, produits, utilisateurs, etc.
-│   ├── cart_api.php
-│   ├── products_api.php
-│   ├── users_api.php
-│   └── ...
+│   ├── cart_add.php
+│   └── ...           # Autres endpoints API
 │
 ├── assets/          # Ressources statiques (CSS, JS, images)
 │   ├── css/
-│   │   └── monaccueil.css
+│   │   ├── monaccueil.css
+│   │   └── ...       # Autres feuilles de style
 │   ├── js/
-│   │   └── cart.js
-│   └── images/
+│   │   ├── panier.js
+│   │   └── ...       # Autres scripts JS
+│   └── images/       # Images produits, fonds, logos
 │
 ├── classes/         # Classes PHP (logique métier : gestion utilisateurs, produits, panier, etc.)
 │   ├── ProductManager.php
 │   ├── CartManager.php
 │   ├── UserManager.php
-│   └── ...
+│   └── ...           # Autres classes métier
 │
 ├── includes/        # Fichiers d’inclusion (configuration, fonctions utilitaires, connexion DB)
 │   └── db.php
 │
+├── adresses.php     # Gestion des adresses de livraison
 ├── index.php        # Page d’accueil (affichage produits, navigation)
 ├── login.php        # Connexion utilisateur
-├── register.php     # Inscription utilisateur
-├── profile.php      # Profil utilisateur
-├── order.php        # Commandes utilisateur
-├── adresses.php     # Gestion des adresses
-├── welcome.php      # Page d’accueil post-connexion client
 ├── logout.php       # Déconnexion
-├── README.md        # Documentation du projet
-└── ...
+├── order.php        # Commandes utilisateur
+├── profile.php      # Profil utilisateur
+├── register.php     # Inscription utilisateur
+├── welcome.php      # Page d’accueil post-connexion client
+├── .gitattributes
+├── .vscode/
+│   └── settings.json
+└── README.md        # Documentation du projet
 ```
+
+---
 
 ## Détail des dossiers
 
@@ -91,12 +113,16 @@ deep/
   - `welcome.php` : page d’accueil après connexion client.
   - `logout.php` : déconnexion.
 
+---
+
 ## Technologies utilisées
 
 - **Backend** : PHP natif (POO), MySQL (PDO)
 - **Frontend** : HTML5, CSS3, JavaScript (vanilla, Chart.js pour les graphiques)
 - **Sécurité** : Sessions PHP, hashage des mots de passe, vérification des rôles, validation des entrées
-- **Responsive** : CSS personnalisé,
+- **Responsive** : CSS personnalisé
+
+---
 
 ## Bonnes pratiques et organisation
 
@@ -106,11 +132,12 @@ deep/
 - **Protection des pages sensibles** : vérification du rôle et de la connexion sur chaque page.
 - **Code maintenable et évolutif** : chaque entité (produit, utilisateur, panier…) a sa propre classe et son endpoint API dédié.
 
+---
+
 ## Auteur
 
-MAMBOTE MAZULU Icksan
+MAMBOTE MAZULU Icksan  
 L1/LMD-FASI
-
 
 ---
 

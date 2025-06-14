@@ -3,7 +3,7 @@ require_once 'includes/config.php';
 require_once 'welcome.php';
 $db = loginDatabase();
 $total = $_GET['order_items'] ?? '';
-$order= $_GET['order_id'] ?? '';
+$order = $_GET['order_id'] ?? '';
 
 // Récupérer les commandes de l'utilisateur
 $stmt = $db->prepare("
@@ -37,68 +37,74 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Commandes</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/order.css">
+    <link rel="stylesheet" href="cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/od.css">
 </head>
 
 <body>
 
     <div class="container" id="navbar">
-        <div class="navar-logo">
-            <nav class="navbar">
-                <div class="logo">Smith<span>Collection</span></div>
-                <ul class="nav-links">
+        <nav class="navbar">
+            <div class="logo">Smith<span>Collection</span></div>
+            <div class="notify-bell" id="notifyBell">
+                <i class="fas fa-bell"></i>
+                <span class="notify-count" id="notifyCount"></span>
+                <div class="notify-dropdown" id="notifyDropdown"></div>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/ghost/deep/classes/product.php">Boutique</a></li>
+                <li><a href="#">Nouveautés</a></li>
+                <li><a href="/ghost/deep/classes/contact.php">Contact</a></li>
+                <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true): ?>
+                    <li><a href="/ghost/deep/login.php">Connexion</a></li>
+                <?php elseif (isset($_SESSION["role"]) && $_SESSION["role"] === "admin"): ?>
+                    <li><a href="/ghost/deep/admin/orders.php">Commandes</a></li>
+                <?php else: ?>
+                    <li><a href="/ghost/deep/profile.php">Profil</a></li>
+                <?php endif; ?>
+            </ul>
+            <div class="burger" id="burgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+        </header>
+    </div>
+    <div class="orders-container">
+        <h1 class="section-title">Mes Commandes</h1>
 
-                    <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-                        echo '<li><a href="login.php">Connexion</a></li>';
-                    } elseif (isset($_SESSION["role"]) && $_SESSION["role"] === "admin") {
-                        echo '<li><a href="admin/dashboard.php">Dashboard</a></li>';
-                    } else {
-                        echo '<li><a href="profile.php">Profile</a></li>';
-                    } ?>
-                    <li><a href="classes/Product.php">Boutique</a></li>
-                    <li><a href="#">Nouveautés</a></li>
-                    <li><a href="classes/contact.php">Contact</a></li>
-                </ul>
-                <div class="notification-icon">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">0</span>
-                </div>
+        <?php
+        if (empty($orders)) : ?>
+            <p>Aucune commande trouvée</p>
+        <?php else : ?>
 
-            </nav>
-        </div>
-        <div class="orders-container">
-            <h1 class="section-title">Mes Commandes</h1>
-
-            <?php
-            if (empty($orders)) : ?>
-                <p>Aucune commande trouvée</p>
-            <?php else : ?>
-
-                <table class="orders-table">
-                    <thead>
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Produits</th>
+                        <th>Montant Total</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($orders as $order): ?>
                         <tr>
-                            <th>ID</th>
-                            <th>Date</th>
-                            <th>Produits</th>
-                            <th>Montant Total</th>
-                            <th>Statut</th>
+                            <td><?= htmlspecialchars($order['id'] ?? '')  ?></td>
+                            <td><?= htmlspecialchars(date('d/m/Y', strtotime($order['order_date']))) ?></td>
+                            <td><?= htmlspecialchars($order['products'] ?? '') ?></td>
+                            <td><?= htmlspecialchars(number_format($order['total_amount'], 2)) ?> $</td>
+                            <td><?= htmlspecialchars($order['status']) ?></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($orders as $order): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($order['id'] ?? '')  ?></td>
-                                <td><?= htmlspecialchars(date('d/m/Y', strtotime($order['order_date']))) ?></td>
-                                <td><?= htmlspecialchars($order['products'] ?? '') ?></td>
-                                <td><?= htmlspecialchars(number_format($order['total_amount'], 2)) ?> $</td>
-                                <td><?= htmlspecialchars($order['status']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php endif ?>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif ?>
 
-        </div>
+    </div>
+     <script src="assets/js/od.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/db.php';
 require_once 'ProductManager.php';
+require_once '../welcome.php';
 $db = loginDatabase();
 
 $productManager = new ProductManager($db);
@@ -14,29 +15,46 @@ $products = $productManager->getAllProducts();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nos Produits</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/shopping.css">
+    <link rel="stylesheet" href="../assets/css/sh.css">
+    <link rel="stylesheet" href="../assets/css/od.css">
 </head>
 
 <body>
     <header>
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo">Smith<span>Collection</span></div>
-                <ul class="nav-links">
-                    <li><a href="../index.php">Accueil</a></li>
-                    <li><a href="product.php">Boutique</a></li>
-                    <div class="btn-group">
-                        <li> <a href="../api/cart.php">Panier</a></li>
-                    </div>
-                    <li><a href="contact.php">Contact</a></li>
+        <nav class="navbar">
+            <div class="logo">Smith<span>Collection</span></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.php">Acceuil</a></li>
+                <li><a href="/ghost/deep/classes/product.php">Boutique</a></li>
 
-                </ul>
-                <div class="cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count"> 0</span>
-                </div>
-            </nav>
-        </div>
+                <li><a href="/ghost/deep/classes/contact.php">Contact</a></li>
+                <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
+                    <li><a href="/ghost/deep/logout.php">Déconnexion</a></li>
+                    <li><a href="/ghost/deep/profile.php">Profil</a></li>
+                <?php else: ?>
+                    <li><a href="/ghost/deep/login.php">Connexion</a></li>
+                <?php endif; ?>
+                <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin"): ?>
+                    <li><a href="/ghost/deep/admin/orders.php">Commandes</a></li>
+                <?php else: ?>
+
+                <?php endif; ?>
+            </ul>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count"> 0</span>
+            </div>
+            <div class="notify-bell" id="notifyBell">
+                <i class="fas fa-bell"></i>
+                <span class="notify-count" id="notifyCount"></span>
+                <div class="notify-dropdown" id="notifyDropdown"></div>
+            </div>
+            <div class="burger" id="burgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
     </header>
 
     <section class="container">
@@ -73,19 +91,33 @@ $products = $productManager->getAllProducts();
 
     <div class="cart-overlay">
         <div class="cart">
-            <span class="close-cart"><i class="fas fa-times"></i></span>
+            <!-- <span class="close-cart"><i class="fas fa-times"></i></span> -->
             <h2>Votre Panier</h2>
             <div class="cart-content" style="display: flex;">
-        </div>
+            </div>
             <div class="cart-total">
                 <span>Total : </span>
                 <span class="cart-total-amount">0$</span>
             </div>
-            <button class="checkout-btn">Passer la commande</button>
+            <a href="../api/order.php" class="btn-order" id="btnOrder" style="
+    display:inline-block;
+    background:#7d1a1a;
+    color:#fff;
+    padding:0.8rem 2rem;
+    border-radius:6px;
+    font-size:1.1rem;
+    text-decoration:none;
+    font-weight:500;
+    transition:background 0.2s;
+    margin-top:1rem;
+">Passer la commande</a>
+
         </div>
     </div>
 
-    <script src="../assets/js/cart.js"></script>
+
+    <script src="../assets/js/ct.js"></script>
+    <script src="../assets/js/od.js"></script>
 
 </body>
 

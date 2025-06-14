@@ -52,6 +52,7 @@ if (isset($_GET['action'], $_GET['id'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/carts.css">
+    <link rel="stylesheet" href="assets/css/od.css">
     <title>Panier</title>
 </head>
 
@@ -62,16 +63,28 @@ if (isset($_GET['action'], $_GET['id'])) {
             <div class="container">
                 <nav class="navbar">
                     <div class="logo">Smith<span>Collection</span></div>
-                    <ul class="nav-links">
-                        <li><a href="../index.php">Accueil</a></li>
-                        <li><a href="../classes/product.php">Boutique</a></li>
-                        <div class="btn-group">
-                            <li> <a href="../api/cart.php">Panier</a></li>
-                        </div>
-                        <li><a href="../classes/contact.php">Contact</a></li>
-
+                    <ul class="nav-links" id="navLinks">
+                        <li><a href="/ghost/deep/classes/product.php">Boutique</a></li>
+                        <li><a href="#">Nouveautés</a></li>
+                        <li><a href="/ghost/deep/classes/contact.php">Contact</a></li>
+                        <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true): ?>
+                            <li><a href="/ghost/deep/login.php">Connexion</a></li>
+                        <?php elseif (isset($_SESSION["role"]) && $_SESSION["role"] === "admin"): ?>
+                            <li><a href="/ghost/deep/admin/orders.php">Commandes</a></li>
+                        <?php else: ?>
+                            <li><a href="/ghost/deep/profile.php">Profil</a></li>
+                        <?php endif; ?>
                     </ul>
-
+                    <div class="notify-bell" id="notifyBell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notify-count" id="notifyCount"></span>
+                        <div class="notify-dropdown" id="notifyDropdown"></div>
+                    </div>
+                    <div class="burger" id="burgerMenu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                 </nav>
             </div>
         </header>
@@ -123,6 +136,8 @@ if (isset($_GET['action'], $_GET['id'])) {
             </div>
         <?php endif; ?>
     </section>
+    
+    <script src="../assets/js/ct.js"></script>
 </body>
 
 </html>

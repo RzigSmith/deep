@@ -1,12 +1,12 @@
 <?php
 require_once 'includes/config.php';
 require_once 'welcome.php';
-$db = loginDatabase() ;
+$db = loginDatabase();
 $stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 // Traitement du formulaire de mise à jour
- 
+
 if (isset($_SESSION['success_message'])) {
     $success = $_SESSION['success_message'];
     unset($_SESSION['success_message']);
@@ -115,19 +115,23 @@ if ($db->query("SHOW TABLES LIKE 'favoris'")->fetch()) {
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Profil</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/profil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/od.css">
 </head>
+
 <body>
     <div class="profile-container">
         <!-- Sidebar -->
         <aside class="profile-sidebar">
             <img src="./assets/images/<?= htmlspecialchars($user['avatar'] ?? 'default_avatar.png') ?>"
-                 alt="Avatar" class="profile-avatar">
+                alt="Avatar" class="profile-avatar">
             <h2 class="profile-name"><?= htmlspecialchars($_SESSION['username']) ?></h2>
             <p class="profile-email"><?= htmlspecialchars($_SESSION['email']) ?></p>
 
@@ -140,8 +144,9 @@ if ($db->query("SHOW TABLES LIKE 'favoris'")->fetch()) {
                     <div class="stat-value"><?= $favCount ?></div>
                     <div class="stat-label">Favoris</div>
                 </div>
+              
             </div>
-            
+
             <ul class="profile-menu">
                 <li><a href="#" class="active">Mon Profil</a></li>
                 <li><a href="order.php">Mes Commandes</a></li>
@@ -152,14 +157,19 @@ if ($db->query("SHOW TABLES LIKE 'favoris'")->fetch()) {
                 <li><a href="parametres.php">Paramètres</a></li>
                 <li><a href="logout.php">Déconnexion</a></li>
             </ul>
+              <div class="notify-bell" id="notifyBell">
+                    <i class="fas fa-bell"></i>
+                    <span class="notify-count" id="notifyCount"></span>
+                    <div class="notify-dropdown" id="notifyDropdown"></div>
+                </div>
         </aside>
-        
+
         <!-- Main Content -->
         <main class="profile-main">
             <?php if ($success): ?>
                 <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
             <?php endif; ?>
-            
+
             <?php if (!empty($errors)): ?>
                 <div class="alert alert-danger">
                     <?php foreach ($errors as $error): ?>
@@ -167,50 +177,52 @@ if ($db->query("SHOW TABLES LIKE 'favoris'")->fetch()) {
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
-            
+
             <h1 class="section-title">Informations Personnelles</h1>
             <p class="member-since">Membre depuis le <?= date('d/m/Y', strtotime($user['created_at'])) ?></p>
-            
+
             <form method="POST" action="profile.php" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username" class="form-label">Nom d'utilisateur</label>
-                    <input type="text" id="username" name="username" class="form-control" 
-                           value="<?= htmlspecialchars($user['username']) ?>" required>
+                    <input type="text" id="username" name="username" class="form-control"
+                        value="<?= htmlspecialchars($user['username']) ?>" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="email" class="form-label">Adresse Email</label>
-                    <input type="email" id="email" name="email" class="form-control" 
-                           value="<?= htmlspecialchars($user['email']) ?>" required>
+                    <input type="email" id="email" name="email" class="form-control"
+                        value="<?= htmlspecialchars($user['email']) ?>" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="avatar" class="form-label">Photo de profil</label>
                     <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*">
                     <small class="error-message">Formats acceptés : jpg, png, jpeg, gif (max 2Mo)</small>
                 </div>
-                
+
                 <h2 class="section-title" style="margin-top: 2.5rem;">Changer de mot de passe</h2>
-                
+
                 <div class="form-group">
                     <label for="current_password" class="form-label">Mot de passe actuel</label>
                     <input type="password" id="current_password" name="current_password" class="form-control">
                 </div>
-                
+
                 <div class="form-group">
                     <label for="new_password" class="form-label">Nouveau mot de passe</label>
                     <input type="password" id="new_password" name="new_password" class="form-control">
                     <small class="error-message">Laissez vide pour ne pas changer</small>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="confirm_password" class="form-label">Confirmer le nouveau mot de passe</label>
                     <input type="password" id="confirm_password" name="confirm_password" class="form-control">
                 </div>
-                
+
                 <button type="submit" class="btn btn-block">Mettre à jour le profil</button>
             </form>
         </main>
     </div>
+    <script src="assets/js/od.js"></script>
 </body>
+
 </html>

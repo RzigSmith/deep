@@ -31,6 +31,8 @@ foreach (array_reverse($stats) as $row) {
     <meta charset="UTF-8">
     <title>Dashboard Admin</title>
     <link rel="stylesheet" href="mydashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/od.css">
     <style>
     </style>
 </head>
@@ -47,10 +49,16 @@ foreach (array_reverse($stats) as $row) {
             <li><a href="messages.php">Mes messages</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>
+
     </div>
     <div class="main">
         <div class="header">
             <h1>Bienvenue, <?= htmlspecialchars($_SESSION['user']['username']) ?> !</h1>
+        </div>
+        <div class="notify-bell" id="notifyBell" style="justify-content: end;">
+            <i class="fas fa-bell"></i>
+            <span class="notify-count" id="notifyCount"></span>
+            <div class="notify-dropdown" id="notifyDropdown"></div>
         </div>
         <div class="stats-cards">
             <div class="card">
@@ -79,6 +87,7 @@ foreach (array_reverse($stats) as $row) {
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/od.js"></script>
     <script>
         // Données PHP vers JS
         const months = <?= json_encode($months) ?>;

@@ -43,16 +43,37 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smith Collection - Administration</title>
-    <link rel="stylesheet" href="../assets/css/adpages.css">
+    <link rel="stylesheet" href="../assets/css/adm.css">
+    <link rel="stylesheet" href="../assets/css/od.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
-    <header class="admin-header">
-        <h1>Tableau de bord - Administration</h1>
-        <nav>
-            <a href="index.php">Accueil</a>
-            <a href="admin_profile.php">Mon Profil</a>
-            <a href="connecion.php" onclick="logout()">Déconnexion</a>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Smith<span>Collection</span></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/ghost/deep/classes/product.php">Boutique</a></li>
+                <li><a href="#">Nouveautés</a></li>
+                <li><a href="/ghost/deep/classes/contact.php">Contact</a></li>
+                <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true): ?>
+                    <li><a href="/ghost/deep/login.php">Connexion</a></li>
+                <?php elseif (isset($_SESSION["role"]) && $_SESSION["role"] === "admin"): ?>
+                    <li><a href="/ghost/deep/admin/orders.php">Commandes</a></li>
+                <?php else: ?>
+                    <li><a href="/ghost/deep/profile.php">Profil</a></li>
+                <?php endif; ?>
+            </ul>
+            <div class="notify-bell" id="notifyBell">
+                <i class="fas fa-bell"></i>
+                <span class="notify-count" id="notifyCount"></span>
+                <div class="notify-dropdown" id="notifyDropdown"></div>
+            </div>
+            <div class="burger" id="burgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </nav>
     </header>
     <main>
@@ -112,6 +133,7 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
 
     </main>
     <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/od.js"></script>
 
 </body>
 

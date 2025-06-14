@@ -1,0 +1,43 @@
+.notify-bell {
+    position: relative;
+    cursor: pointer;
+    margin-left: 1.5rem;
+}
+.notify-bell .fa-bell {
+    font-size: 1.5rem;
+    color: #7d1a1a;
+}
+.notify-count {
+    position: absolute;
+    top: -7px; right: -7px;
+    background: #a93226;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    padding: 2px 6px;
+    font-weight: bold;
+}
+.notify-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 2.2rem;
+    background: #fff;
+    min-width: 260px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.13);
+    border-radius: 8px;
+    z-index: 100;
+    padding: 0.7rem 0.5rem;
+}
+.notify-bell.active .notify-dropdown {
+    display: block;
+}
+.notify-dropdown .notif-item {
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid #eee;
+    font-size: 0.98rem;
+    color: #333;
+}
+.notify-dropdown .notif-item:last-child {
+    border-bottom: none;
+}

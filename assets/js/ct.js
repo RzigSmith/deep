@@ -28,9 +28,11 @@ cartBtn.addEventListener('click', () => {
     cartOverlay.style.display = 'flex';
 });
 
-// Fermer le panier
-closeCartBtn.addEventListener('click', () => {
-    cartOverlay.style.display = 'none';
+// Fermer le panier en cliquant sur l'overlay (mais pas sur la div .cart)
+cartOverlay.addEventListener('click', function(e) {
+    if (e.target === cartOverlay) {
+        cartOverlay.style.display = 'none';
+    }
 });
 
 // Ajouter au panier via API serveur
@@ -116,22 +118,22 @@ function updateCartDisplay() {
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-item');
         cartItem.innerHTML = `
-        <div class="cart-item-flex" style="display:flex;">
-                <div class="img">
-                <img src="../admin/${image}" alt="${name}">
-                </div>
-                <div class="cart-item-info" ">
-                    <div class="cart-item-title">${name}</div>
-                    <div class="cart-item-price">${price.toFixed(2)}$</div>
-                        <div class="cart-item-quantity">
-                            <button class="quantity-btn minus" data-id="${id}">-</button>
-                            <span class="quantity">${qty}</span>
-                            <button class="quantity-btn plus" data-id="${id}">+</button>
-                        </div>
-                    <div class="remove-item" data-id="${id}">Supprimer</div>
-                </div>
-          </div>
-        `;
+    <div class="cart-item-flex">
+        <div class="img">
+            <img src="../admin/${image}" alt="${name}">
+        </div>
+        <div class="cart-item-info">
+            <div class="cart-item-title">${name}</div>
+            <div class="cart-item-price">${price.toFixed(2)}$</div>
+            <div class="cart-item-quantity">
+                <button class="quantity-btn minus" data-id="${id}">-</button>
+                <span class="quantity">${qty}</span>
+                <button class="quantity-btn plus" data-id="${id}">+</button>
+            </div>
+            <div class="remove-item" data-id="${id}">Supprimer</div>
+        </div>
+    </div>
+`;
         cartContent.appendChild(cartItem);
     });
 
@@ -144,7 +146,7 @@ function updateCartDisplay() {
     if (btnOrder) {
         if (count > 0) {
             btnOrder.style.display = 'inline-block';
-            btnOrder.href = `/ghost/deep/order.php?orders=${encodeURIComponent(total.toFixed(2))}`;
+            btnOrder.href = `/ghost/deep/api/order.php?orders=${encodeURIComponent(total.toFixed(2))}`;
         } else {
             btnOrder.style.display = 'none';
         }
