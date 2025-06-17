@@ -97,6 +97,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="admin-notice">
             Pas de compte ? <a href="register.php">Inscrivez-vous</a>
         </div>
+        <div class="admin-notice">
+            <a href="forgot_password.php">Mot de passe oublié ?</a>
+        </div>
     </div>
 </body>
 </html>

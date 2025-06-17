@@ -1,3 +1,5 @@
 {
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5501,
+    "php.executablePath": "C:/wamp64/bin/php/php[8.4.0 ]/php.exe",
+    "composer.executablePath": "C:/ProgramData/ComposerSetup/bin/composer.phar"
 }
