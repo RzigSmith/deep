@@ -17,6 +17,8 @@ function loginDatabase()
 
     try {
         $db = new PDO($dsn, $user, $pass, $options);  
+
+        
          return  $db;
     } catch (\PDOException $e) {
         throw new \PDOException($e->getMessage(), (int)$e->getCode());
