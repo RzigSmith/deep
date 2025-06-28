@@ -45,6 +45,7 @@ $description = $db->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
     <title>Smith Collection - Administration</title>
     <link rel="stylesheet" href="../assets/css/adm.css">
     <link rel="stylesheet" href="../assets/css/od.css">
+    <link rel="stylesheet" href="../assets/css/notif.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 

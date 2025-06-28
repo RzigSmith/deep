@@ -153,7 +153,6 @@ if ($db->query("SHOW TABLES LIKE 'favoris'")->fetch()) {
                 <li><a href="index.php">Acceder à l'Accueil</a></li>
                 <li><a href="adresses.php">Mes Adresses</a></li>
                 <li><a href="api/cart.php">mon panier</a></li>
-                <li><a href="favoris.php">Mes Favoris</a></li>
                 <li><a href="parametres.php">Paramètres</a></li>
                 <li><a href="logout.php">Déconnexion</a></li>
             </ul>

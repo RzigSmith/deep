@@ -1,5 +1,5 @@
 <?php
-// filepath: e:\wamp64\www\ghost\deep\classes\UserManager.php
+
 class UserManager {
     private $db;
     public function __construct($db) {

@@ -14,14 +14,14 @@ try {
 }
 
 // Configuration de la session sécurisée
-// session_set_cookie_params([
-//     'lifetime' => 3600,
-//     'path' => '/',
-//     'secure' => true,
-//     'httponly' => true,
-//     'samesite' => 'Strict'
-// ]);
-// session_start();
+session_set_cookie_params([
+    'lifetime' => 3600,
+    'path' => '/',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
 
 // Fonction pour nettoyer les entrées
 function sanitize($data) {

@@ -6,8 +6,27 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 $db = loginDatabase();
+
+// Récupérer toutes les commandes
 $stmt = $db->query("SELECT o.*, u.username FROM orders o JOIN users u ON o.user_id = u.id ORDER BY o.order_date DESC");
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Pour chaque commande, récupérer les produits commandés
+$orderProducts = [];
+if ($orders) {
+    $orderIds = array_column($orders, 'id');
+    $in = implode(',', array_fill(0, count($orderIds), '?'));
+    $stmt = $db->prepare("
+        SELECT oi.order_id, p.name 
+        FROM order_items oi 
+        JOIN products p ON oi.product_id = p.id 
+        WHERE oi.order_id IN ($in)
+    ");
+    $stmt->execute($orderIds);
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $orderProducts[$row['order_id']][] = $row['name'];
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
     $order_id = intval($_POST['order_id']);
@@ -29,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
     <title>Commandes clients</title>
     <link rel="stylesheet" href="../assets/css/od.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/notif.css">
 </head>
 <body>
 <header>
@@ -39,12 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
             <li><a href="messages.php">messages</a></li>
             
             <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true): ?>
-                <li><a href="/ghost/deep/login.php">Connexion</a></li>
+                <li><a href="../login.php">Connexion</a></li>
             <?php elseif (isset($_SESSION["role"]) && $_SESSION["role"] === "admin"): ?>
-                <li><a href="/ghost/deep/admin/orders.php">Commandes</a></li>
+                <li><a href="../admin/orders.php">Commandes</a></li>
                 <li><a href="logout.php">Deconnexion</a></li>
             <?php else: ?>
-                <li><a href="/ghost/deep/profile.php">Profil</a></li>
+                <li><a href="../admin/admin_profile.php">Profil</a></li>
             <?php endif; ?>
         </ul>
         <div class="notify-bell" id="notifyBell">
@@ -62,7 +82,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
     <h2>Commandes clients</h2>
     <table class="orders-table">
         <tr>
-            <th>ID</th><th>Client</th><th>Date</th><th>Montant</th><th>Statut</th><th>Action</th>
+            <th>ID</th>
+            <th>Client</th>
+            <th>Date</th>
+            <th>Montant</th>
+            <th>Produits</th>
+            <th>Statut</th>
+            <th>Action</th>
         </tr>
         <?php foreach ($orders as $order): ?>
         <tr>
@@ -70,6 +96,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
             <td><?= htmlspecialchars($order['username']) ?></td>
             <td><?= $order['order_date'] ?></td>
             <td><?= number_format($order['total_amount'],2) ?> $</td>
+            <td>
+                <?php
+                if (!empty($orderProducts[$order['id']])) {
+                    echo htmlspecialchars(implode(', ', $orderProducts[$order['id']]));
+                } else {
+                    echo '-';
+                }
+                ?>
+            </td>
             <td><?= htmlspecialchars($order['status']) ?></td>
             <td>
                 <?php if ($order['status'] !== 'confirmé'): ?>

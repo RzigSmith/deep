@@ -1,5 +1,4 @@
 <?php
-// filepath: e:\wamp64\www\ghost\deep\classes\ProductManager.php
 class ProductManager
 {
     private $db;

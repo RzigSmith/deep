@@ -61,15 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <nav class="navbar">
             <div class="logo">Smith<span>Collection</span></div>
             <ul class="nav-links" id="navLinks">
-                <li><a href="/ghost/deep/classes/product.php">Boutique</a></li>
-                <li><a href="#">Nouveautés</a></li>
-                <li><a href="/ghost/deep/classes/contact.php">Contact</a></li>
+                <li><a href="./classes/product.php">Boutique</a></li>
+                
+                <li><a href="./classes/contact.php">Contact</a></li>
                 <?php if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true): ?>
-                    <li><a href="/ghost/deep/login.php">Connexion</a></li>
+                    <li><a href="./login.php">Connexion</a></li>
                 <?php elseif (isset($_SESSION["role"]) && $_SESSION["role"] === "admin"): ?>
-                    <li><a href="/ghost/deep/admin/orders.php">Commandes</a></li>
+                    <li><a href="./admin/orders.php">Commandes</a></li>
                 <?php else: ?>
-                    <li><a href="/ghost/deep/profile.php">Profil</a></li>
+                    <li><a href="./profile.php">Profil</a></li>
                 <?php endif; ?>
             </ul>
             <div class="notify-bell" id="notifyBell">

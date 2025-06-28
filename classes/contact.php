@@ -1,16 +1,16 @@
 <?php
 
+// Connexion à la base de données
 require_once '../includes/db.php';
 // Vérification de la session utilisateur
 require_once '../welcome.php';
 
-// Connexion à la base de données
-try {
-    $db = new PDO('mysql:host=localhost;dbname=ecommerce_db', 'root', '');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion: " . $e->getMessage());
-}
+// try {
+//     $db = new PDO('mysql:host=localhost;dbname=ecommerce_db', 'root', '');
+//     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// } catch (PDOException $e) {
+//     die("Erreur de connexion: " . $e->getMessage());
+// }
 // Traitement du formulaire (optionnel)
 $success = '';
 $errors = [];

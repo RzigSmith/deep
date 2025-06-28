@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply_user_id'], $_PO
     <title>Smith collection</title>
     <link rel="stylesheet" href="messages.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/od.css">
+    <link rel="stylesheet" href="../assets/css/od.css">
 </head>
 
 <body>

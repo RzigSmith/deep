@@ -10,12 +10,11 @@ body {
     color: #2e2e2e;
 }
 
-/* header styles */
 
 /* Header */
 header {
     background-color: beige;
-   _!i
+
     background-size: cover;
     background-repeat: no-repeat;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

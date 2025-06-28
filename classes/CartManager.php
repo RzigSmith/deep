@@ -1,5 +1,4 @@
 <?php
-// require_once realpath(__DIR__ . 'Database.php'); // Ensure the correct path to Database.php
 $db= new PDO("mysql:host=localhost;dbname=ecommerce_db", "root","");
 class CartManager {
     public function __construct() {
