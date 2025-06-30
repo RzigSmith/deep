@@ -107,9 +107,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form action="order_items.php?order_items=<?= htmlspecialchars($total) ?>" method="post" id="orderForm">
         <h2>Confirmer votre commande</h2>
-        <label for="order_id">Id commande</label>
+        
         <input type="hidden" name="order_id" value="<?= htmlspecialchars($_SESSION['order_id']) ?>" readonly>
-        <label for="product_id">Ids des produits</label>
+        
         <input type="hidden" name="product_id" value="<?= htmlspecialchars(implode(', ', array_keys($_SESSION['cart']))) ?>" readonly>
         <label for="quantity">Quantité totale</label>
         <input type="text" name="quantity" value="<?= htmlspecialchars(array_sum($_SESSION['cart'])) ?>" readonly>

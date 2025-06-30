@@ -7,7 +7,7 @@ const bell = document.getElementById('notifyBell');
 const dropdown = document.getElementById('notifyDropdown');
 const countSpan = document.getElementById('notifyCount');
 function fetchNotifications() {
-    fetch('/ghost/deep/api/notifications.php')
+    fetch('../../api/notifications.php')
         .then(res => res.json())
         .then(data => {
             dropdown.innerHTML = '';
@@ -23,7 +23,7 @@ bell.onclick = function(e) {
     bell.classList.toggle('active');
     if (bell.classList.contains('active')) {
         fetchNotifications();
-        fetch('/ghost/deep/api/notifications_read.php', {method: 'POST'});
+        fetch('../../api/notifications_read.php', {method: 'POST'});
         countSpan.textContent = '';
     }
 };

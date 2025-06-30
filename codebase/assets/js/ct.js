@@ -12,7 +12,7 @@ let cart = {};
 
 // Charger le panier depuis le serveur au chargement de la page
 function loadCartFromServer() {
-    fetch('/ghost/deep/api/cart_api.php?action=get')
+    fetch('../../api/cart_api.php?action=get')
         .then(response => response.json())
         .then(data => {
             cart = data.cart || {};
@@ -37,7 +37,7 @@ cartOverlay.addEventListener('click', function(e) {
 
 // Ajouter au panier via API serveur
 function addToCart(productId, qty = 1) {
-    fetch('/ghost/deep/api/cart_api.php', {
+    fetch('../../api/cart_api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `action=add&id=${productId}&qty=${qty}`
@@ -54,7 +54,7 @@ function addToCart(productId, qty = 1) {
 
 // Mettre à jour la quantité via API serveur
 function updateCartItem(productId, qty) {
-    fetch('/ghost/deep/api/cart_api.php', {
+    fetch('../../api/cart_api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `action=update&id=${productId}&qty=${qty}`
@@ -70,7 +70,7 @@ function updateCartItem(productId, qty) {
 
 // Supprimer un article via API serveur
 function removeCartItem(productId) {
-    fetch('/ghost/deep/api/cart_api.php', {
+    fetch('../../api/cart_api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `action=remove&id=${productId}`
@@ -146,7 +146,7 @@ function updateCartDisplay() {
     if (btnOrder) {
         if (count > 0) {
             btnOrder.style.display = 'inline-block';
-            btnOrder.href = `/ghost/deep/api/order.php?orders=${encodeURIComponent(total.toFixed(2))}`;
+            btnOrder.href = `../../api/order.php?orders=${encodeURIComponent(total.toFixed(2))}`;
         } else {
             btnOrder.style.display = 'none';
         }

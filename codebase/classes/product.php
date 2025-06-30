@@ -25,17 +25,17 @@ $products = $productManager->getAllProducts();
             <div class="logo">Smith<span>Collection</span></div>
             <ul class="nav-links" id="navLinks">
                 <li><a href="../index.php">Acceuil</a></li>
-                <li><a href="/ghost/deep/classes/product.php">Boutique</a></li>
+                <li><a href="./product.php">Boutique</a></li>
 
-                <li><a href="/ghost/deep/classes/contact.php">Contact</a></li>
+                <li><a href="./contact.php">Contact</a></li>
                 <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
-                    <li><a href="/ghost/deep/logout.php">Déconnexion</a></li>
-                    <li><a href="/ghost/deep/profile.php">Profil</a></li>
+                    <li><a href="../logout.php">Déconnexion</a></li>
+                    <li><a href="../profile.php">Profil</a></li>
                 <?php else: ?>
-                    <li><a href="/ghost/deep/login.php">Connexion</a></li>
+                    <li><a href="../login.php">Connexion</a></li>
                 <?php endif; ?>
-                <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin"): ?>
-                    <li><a href="/ghost/deep/admin/orders.php">Commandes</a></li>
+                <?php if (isset($_SESSION["loggedin"]) && ($_SESSION["role"]) && $_SESSION["role"] === "admin"): ?>
+                    <li><a href="../admin/orders.php">Commandes</a></li>
                 <?php else: ?>
 
                 <?php endif; ?>
