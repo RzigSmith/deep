@@ -1,5 +1,5 @@
 <?php
-// filepath: e:\wamp64\www\ghost\deep\api\users_api.php
+
 require_once '../includes/db.php';
 require_once '../classes/UserManager.php';
 

@@ -1,5 +1,5 @@
 <?php
-// filepath: e:\wamp64\www\ghost\deep\api\cart_api.php
+
 session_start();
 require_once '../classes/CartManager.php';
 
